@@ -1,0 +1,18 @@
+#contentTemplate{
+    background-color: #2b542c;
+    color: white;
+}
+
+#sidePanelTemplate{
+    background-color: #2e6da4;
+    color: white;
+
+}
+
+#contentBlock{
+    margin-top: 100px;
+}
+
+.navbar-text{
+    float: right;
+}
