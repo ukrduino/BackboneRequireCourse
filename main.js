@@ -5,9 +5,11 @@ requirejs.config({
         backbone: 'backbone',
         underscore: 'underscore',
         text:'text',
-        "bootstrap": 'bootstrap',
+        bootstrap: 'bootstrap',
         appModels: '../models',
         mainView: '../views/mainView',
+        loginView: '../views/loginView',
+        registrationView: '../views/registrationView',
         app: '../app',
         router: '../router'
 

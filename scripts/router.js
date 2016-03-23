@@ -2,14 +2,29 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'mainView'
-], function ($, _, Backbone, MainView) {
+    'mainView',
+    'loginView',
+    'registrationView'
+], function ($, _, Backbone, MainView, LoginView, RegistrationView) {
     var AppRouter = Backbone.Router.extend({
-        //set up routs here
+        routes: {
+            'login': 'showLoginForm',
+            'register': 'showRegistrationForm'
+        }
     });
 
     var initialize = function () {
-        //var app_router = new AppRouter;
+        var app_router = new AppRouter;
+        app_router.on('route:showLoginForm', function(){
+            console.log("AppRouter showLoginForm");
+
+            var loginView = new LoginView();
+            loginView.render();
+        });
+        app_router.on('route:showRegistrationForm', function(){
+            var registrationView = new RegistrationView();
+            registrationView.render();
+        });
         console.log("AppRouter initialize");
         var mainView = new MainView();
         mainView.render();
