@@ -6,11 +6,13 @@ requirejs.config({
         underscore: 'underscore',
         text:'text',
         bootstrap: 'bootstrap',
-        appModels: '../models',
+        userModel: '../models/userModel',
         mainView: '../views/mainView',
         loginView: '../views/loginView',
         registrationView: '../views/registrationView',
+        editProfileView: '../views/editProfileView',
         app: '../app',
+        settings: '../settings',
         router: '../router'
 
     },

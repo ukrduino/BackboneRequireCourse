@@ -20,6 +20,7 @@ define(['underscore',
         render: function () {
             console.log("MainView render");
             this.$header.append(_.template(headerTemplate));
+            this.contentBlock.empty();
             this.contentBlock.append(_.template(sidePanelTemplate));
             this.contentBlock.append(_.template(contentTemplate));
         }

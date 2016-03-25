@@ -17,7 +17,20 @@
     float: right;
 }
 
+#profileLink{
+    float: right;
+}
+
+#editProfileLink{
+    float: right;
+}
+
 input {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#saveProfile{
     margin-top: 20px;
     margin-bottom: 20px;
 }

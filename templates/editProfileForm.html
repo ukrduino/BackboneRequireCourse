@@ -1,0 +1,90 @@
+<div class="col-lg-8 col-lg-offset-2">
+    <h3> Edit Profile Data </h3>
+    <hr/>
+    <form name="update_profile" novalidate>
+        <dl class="dl-horizontal profile-data-item" id="email">
+            <dt><span class="inline-block thin title"> Email: </span></dt>
+            <dd>
+                <!-- Email -->
+                <input type="email" class="form-control" name="email" placeholder="Email" disabled/>
+            </dd>
+        </dl>
+        <dl class="dl-horizontal profile-data-item" id="first_name">
+            <dt><span class="inline-block thin title"> First Name: </span></dt>
+            <dd>
+                <!-- first_name -->
+                <input type="text" class="form-control" name="first_name" placeholder="Enter First Name"/>
+            </dd>
+        </dl>
+        <dl class="dl-horizontal profile-data-item" id="last_name">
+            <dt><span class="inline-block thin title"> Last Name: </span></dt>
+            <dd>
+                <!-- last_name -->
+                <input type="text" class="form-control" name="last_name" placeholder="Enter Last Name"/>
+            </dd>
+        </dl>
+        <dl class="dl-horizontal profile-data-item" id="birthday">
+            <dt><span class="inline-block thin title"> Birthday: </span></dt>
+            <dd>
+                 birthday
+                <a href="#" id="dob" data-type="combodate" data-pk="1"
+                   data-value=""
+                   data-title="Enter Your BirthDay"></a>
+            </dd>
+        </dl>
+        <dl class="dl-horizontal profile-data-item" id="phone">
+            <dt><span class="inline-block thin title"> Phone: </span></dt>
+            <dd>
+                <!-- Phone -->
+                <input type="text" class="form-control" name="phone" placeholder="Enter Phone Number"/>
+            </dd>
+        </dl>
+        <dl class="dl-horizontal profile-data-item" id="address">
+            <dt><span class="inline-block thin title"> Address: </span></dt>
+            <dd>
+                <!-- address -->
+                <input type="text" class="form-control" name="address" placeholder="Enter Your Address"/>
+            </dd>
+        </dl>
+        <dl class="dl-horizontal profile-data-item" id="image_url">
+            <dt><span class="inline-block thin title"> Logo Image (url): </span></dt>
+            <dd>
+                <!-- image_url -->
+                <input type="text" class="form-control" name="image_url" placeholder="Enter Image Url"/>
+            </dd>
+        </dl>
+        <dl class="dl-horizontal profile-data-item" id="twitter">
+            <dt><span class="inline-block thin title"> Twitter Account: </span></dt>
+            <dd>
+                <!-- twitter -->
+                <input type="text" class="form-control" name="twitter" placeholder="Enter Twitter Account"/>
+            </dd>
+        </dl>
+        <dl class="dl-horizontal profile-data-item" id="description">
+            <dt><span class="inline-block thin title"> About Yourself: </span></dt>
+            <dd>
+                <!-- description -->
+                <textarea class="form-control" rows="3" name="description" placeholder="Few words about">
+                </textarea>
+            </dd>
+        </dl>
+        <dl class="dl-horizontal profile-data-item" id="status">
+            <dt><span class="inline-block thin title"> Status Message: </span></dt>
+            <dd>
+                <!-- Status -->
+                <input type="text" class="form-control" name="status" placeholder="Status Message"/>
+            </dd>
+        </dl>
+        <dl class="dl-horizontal profile-data-item" id="gender">
+            <dt><span class="inline-block thin title"> Gender: </span></dt>
+            <dd>
+                Gender
+                <select type="text" class="form-control" name="gender" placeholder="Gender">
+                    <option value="1">Male</option>
+                    <option value="0">Female</option>
+                </select>
+            </dd>
+        </dl>
+        <button class="btn btn-warning btn-lg pull-right" id="saveProfile"> Save Profile</button>
+    </form>
+</div>
