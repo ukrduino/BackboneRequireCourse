@@ -7,6 +7,7 @@ requirejs.config({
         text:'text',
         bootstrap: 'bootstrap',
         userModel: '../models/userModel',
+        loggedInUser: '../models/loggedInUser',
         mainView: '../views/mainView',
         loginView: '../views/loginView',
         registrationView: '../views/registrationView',
