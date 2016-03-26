@@ -6,13 +6,14 @@ define(['underscore',
     'jquery',
     'backbone',
     'settings',
+    'loggedInUser',
     'text!../../templates/loginForm.html',
-    'bootstrap'], function (_, $, Backbone, settings, loginFormTemplate) {
+    'bootstrap'], function (_, $, Backbone, settings, loggedInUser, loginFormTemplate) {
 
     return Backbone.View.extend({
         el: $('#contentBlock'),
-        events:{
-            'click #loginButton':'login'
+        events: {
+            'click #loginButton': 'login'
         },
 
         initialize: function () {
@@ -26,17 +27,25 @@ define(['underscore',
         },
 
         login: function () {
-        var loggedIn = function (jqxhr) {
-            console.log("LoginView login response: " + jqxhr.first_name);
-        };
             console.log("LoginView login Settings.apiKey: " + settings.get("apiKey"));
             var email = $('#email').val();
             var password = $('#password').val();
             var data = {api_key: settings.get("apiKey"), email: email, password: password};
-            var jqxhr = $.post(settings.get("loginUrl"), data, loggedIn)
-                .done(function (collection, response, options) { })
-                .fail(function (data) { console.log( "error: ", data.responseText ); })
-                .always(function () { });
+            var jqxhr = $.post(settings.get("loginUrl"), data, this.loggedIn)
+                .done(function (collection, response, options) {
+                })
+                .fail(function (data) {
+                    console.log("error: ", data.responseText);
+                })
+                .always(function () {
+                });
+        },
+        loggedIn: function (jqxhr) {
+            loggedInUser.set(data);
+            trigger('showHomePage'); // Go Home
+            console.log("LoginView login response: " + loggedInUser.get('first_name'));
+
         }
     });
-});
+})
+;
