@@ -15,10 +15,10 @@ define(['underscore',
         events: {
             'click #loginButton': 'login'
         },
+        model:loggedInUser,
 
         initialize: function () {
             console.log("LoginView initialize");
-
         },
 
         render: function () {
@@ -31,7 +31,7 @@ define(['underscore',
             var email = $('#email').val();
             var password = $('#password').val();
             var data = {api_key: settings.get("apiKey"), email: email, password: password};
-            var jqxhr = $.post(settings.get("loginUrl"), data, this.loggedIn)
+            $.post(settings.get("loginUrl"), data, this.loggedIn)
                 .done(function (collection, response, options) {
                 })
                 .fail(function (data) {
@@ -40,11 +40,10 @@ define(['underscore',
                 .always(function () {
                 });
         },
-        loggedIn: function (jqxhr) {
-            loggedInUser.set(data);
-            trigger('showHomePage'); // Go Home
-            console.log("LoginView login response: " + loggedInUser.get('first_name'));
-
+        loggedIn: function (responseJson) {
+            loggedInUser.set(responseJson);
+            console.log("LoginView loggedIn as: " + loggedInUser.get('first_name'));
+            Backbone.history.navigate('',{trigger: true})
         }
     });
 })
