@@ -34,8 +34,9 @@ define(['underscore',
             $.post(settings.get("loginUrl"), data, this.loggedIn)
                 .done(function (collection, response, options) {
                 })
-                .fail(function (data) {
-                    console.log("error: ", data.responseText);
+                //TODO how to get error response from server
+                .fail(function (response) {
+                    console.log("error: ", response);
                 })
                 .always(function () {
                 });

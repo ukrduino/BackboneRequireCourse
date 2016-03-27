@@ -3,18 +3,37 @@ define([
     'underscore',
     'backbone',
     'settings',
+    'loggedInUser',
     'mainView',
     'loginView',
     'registrationView',
     'editProfileView'
-], function ($, _, Backbone, Settings, MainView, LoginView, RegistrationView, EditProfileView) {
+], function ($, _, Backbone, Settings, LoggedInUser, MainView, LoginView, RegistrationView, EditProfileView) {
     var AppRouter = Backbone.Router.extend({
         routes: {
             '': 'showHomePage',
             'login': 'showLoginForm',
+            'logout': 'logOut',
             'register': 'showRegistrationForm',
             'profile': 'showProfilePage',
             'profile/edit': 'showEditProfileForm'
+        },
+        isLoggedIn: function () {
+            return (!_.isNull(LoggedInUser.get('id')) && !_.isUndefined(LoggedInUser.get('id')));
+        },
+        logOut: function () {
+            LoggedInUser.clear();
+            this.trigger('showHomePage'); // Go Home
+            // TODO ajax not works due to Access-Control-Allow-Origin
+            $.ajax({
+                url: Settings.get('logOutUrl'),
+                data: {api_key:Settings.get('apiKey')},
+                type: 'DELETE',
+                success: function (result) {
+                    console.log(result);
+                    this.trigger('showHomePage'); // Go Home
+                }
+            });
         }
     });
 
@@ -41,7 +60,7 @@ define([
             editProfileView.render();
         });
         app_router.on('route:showHomePage', function () {
-            console.log("AppRouter showHomePage");
+            console.log("AppRouter showHomePage, loggedIn:" + this.isLoggedIn());
             var mainView = new MainView();
             mainView.render();
         });
