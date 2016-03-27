@@ -20,20 +20,6 @@ define([
         },
         isLoggedIn: function () {
             return (!_.isNull(LoggedInUser.get('id')) && !_.isUndefined(LoggedInUser.get('id')));
-        },
-        logOut: function () {
-            LoggedInUser.clear();
-            this.trigger('showHomePage'); // Go Home
-            // TODO ajax not works due to Access-Control-Allow-Origin
-            $.ajax({
-                url: Settings.get('logOutUrl'),
-                data: {api_key:Settings.get('apiKey')},
-                type: 'DELETE',
-                success: function (result) {
-                    console.log(result);
-                    this.trigger('showHomePage'); // Go Home
-                }
-            });
         }
     });
 
@@ -60,9 +46,24 @@ define([
             editProfileView.render();
         });
         app_router.on('route:showHomePage', function () {
-            console.log("AppRouter showHomePage, loggedIn:" + this.isLoggedIn());
+            console.log("AppRouter showHomePage, loggedIn: " + this.isLoggedIn() + " as " + LoggedInUser.get('first_name'));
             var mainView = new MainView();
             mainView.render();
+        });
+        app_router.on('route:logOut', function () {
+            console.log("AppRouter logOut");
+            LoggedInUser.clear();
+            // TODO app_router.trigger('showHomePage') - not working - why?
+            app_router.navigate('', {trigger:true}); // Go Home
+            // TODO ajax not works due to Access-Control-Allow-Origin
+            //$.ajax({
+            //    url: Settings.get('logOutUrl'),
+            //    data: {api_key:Settings.get('apiKey')},
+            //    type: 'DELETE',
+            //    success: function (result) {
+            //        console.log(result);
+            //    }
+            //});
         });
         console.log("AppRouter initialize");
         app_router.trigger('showHomePage');

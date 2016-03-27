@@ -6,21 +6,21 @@
             <dt><span class="inline-block thin title"> Email: </span></dt>
             <dd>
                 <!-- Email -->
-                <input type="email" class="form-control" name="email" placeholder="Email" disabled/>
+                <input type="email" class="form-control" name="email" placeholder="Email" value="<%= email %>" disabled/>
             </dd>
         </dl>
         <dl class="dl-horizontal profile-data-item" id="first_name">
             <dt><span class="inline-block thin title"> First Name: </span></dt>
             <dd>
                 <!-- first_name -->
-                <input type="text" class="form-control" name="first_name" placeholder="Enter First Name"/>
+                <input type="text" class="form-control" name="first_name" placeholder="Enter First Name" value="<%= first_name %>"/>
             </dd>
         </dl>
         <dl class="dl-horizontal profile-data-item" id="last_name">
             <dt><span class="inline-block thin title"> Last Name: </span></dt>
             <dd>
                 <!-- last_name -->
-                <input type="text" class="form-control" name="last_name" placeholder="Enter Last Name"/>
+                <input type="text" class="form-control" name="last_name" placeholder="Enter Last Name" value="<%= last_name %>"/>
             </dd>
         </dl>
         <dl class="dl-horizontal profile-data-item" id="birthday">
@@ -28,36 +28,35 @@
             <dd>
                  birthday
                 <a href="#" id="dob" data-type="combodate" data-pk="1"
-                   data-value=""
-                   data-title="Enter Your BirthDay"></a>
+                   data-title="Enter Your BirthDay" data-value="<%= birthday %>"></a>
             </dd>
         </dl>
         <dl class="dl-horizontal profile-data-item" id="phone">
             <dt><span class="inline-block thin title"> Phone: </span></dt>
             <dd>
                 <!-- Phone -->
-                <input type="text" class="form-control" name="phone" placeholder="Enter Phone Number"/>
+                <input type="text" class="form-control" name="phone" placeholder="Enter Phone Number" value="<%= phone %>" />
             </dd>
         </dl>
         <dl class="dl-horizontal profile-data-item" id="address">
             <dt><span class="inline-block thin title"> Address: </span></dt>
             <dd>
                 <!-- address -->
-                <input type="text" class="form-control" name="address" placeholder="Enter Your Address"/>
+                <input type="text" class="form-control" name="address" placeholder="Enter Your Address" value="<%= address %>" />
             </dd>
         </dl>
         <dl class="dl-horizontal profile-data-item" id="image_url">
             <dt><span class="inline-block thin title"> Logo Image (url): </span></dt>
             <dd>
                 <!-- image_url -->
-                <input type="text" class="form-control" name="image_url" placeholder="Enter Image Url"/>
+                <input type="text" class="form-control" name="image_url" placeholder="Enter Image Url" value="<%= image_url %>" />
             </dd>
         </dl>
         <dl class="dl-horizontal profile-data-item" id="twitter">
             <dt><span class="inline-block thin title"> Twitter Account: </span></dt>
             <dd>
                 <!-- twitter -->
-                <input type="text" class="form-control" name="twitter" placeholder="Enter Twitter Account"/>
+                <input type="text" class="form-control" name="twitter" placeholder="Enter Twitter Account" value="<%= twitter %>" />
             </dd>
         </dl>
         <dl class="dl-horizontal profile-data-item" id="description">
@@ -65,21 +64,21 @@
             <dd>
                 <!-- description -->
                 <textarea class="form-control" rows="3" name="description" placeholder="Few words about">
-                </textarea>
+                <%= description %></textarea>
             </dd>
         </dl>
         <dl class="dl-horizontal profile-data-item" id="status">
             <dt><span class="inline-block thin title"> Status Message: </span></dt>
             <dd>
                 <!-- Status -->
-                <input type="text" class="form-control" name="status" placeholder="Status Message"/>
+                <input type="text" class="form-control" name="status" placeholder="Status Message" value="<%= status %>" />
             </dd>
         </dl>
         <dl class="dl-horizontal profile-data-item" id="gender">
             <dt><span class="inline-block thin title"> Gender: </span></dt>
             <dd>
                 Gender
-                <select type="text" class="form-control" name="gender" placeholder="Gender">
+                <select type="text" class="form-control" name="gender" placeholder="Gender" value="<%= gender %>">
                     <option value="1">Male</option>
                     <option value="0">Female</option>
                 </select>
