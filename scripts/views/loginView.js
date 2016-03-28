@@ -42,9 +42,8 @@ define(['underscore',
                 });
         },
         loggedIn: function (responseJson) {
-            loggedInUser.set(responseJson);
             console.log("LoginView loggedIn as: " + loggedInUser.get('first_name'));
-            Backbone.history.navigate('',{trigger: true})
+            loggedInUser.set(responseJson);
         }
     });
 })

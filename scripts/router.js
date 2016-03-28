@@ -2,13 +2,15 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'settings',
     'loggedInUser',
-    'mainView',
+    'invitationView',
+    'headerView',
+    'sidePanelView',
+    'mainPanelView',
     'loginView',
     'registrationView',
     'editProfileView'
-], function ($, _, Backbone, Settings, LoggedInUser, MainView, LoginView, RegistrationView, EditProfileView) {
+], function ($, _, Backbone, LoggedInUser, InvitationView, HeaderView, SidePanelView, MainPanelView, LoginView, RegistrationView, EditProfileView) {
     var AppRouter = Backbone.Router.extend({
         routes: {
             '': 'showHomePage',
@@ -17,9 +19,6 @@ define([
             'register': 'showRegistrationForm',
             'profile': 'showProfilePage',
             'profile/edit': 'showEditProfileForm'
-        },
-        isLoggedIn: function () {
-            return (!_.isNull(LoggedInUser.get('id')) && !_.isUndefined(LoggedInUser.get('id')));
         }
     });
 
@@ -46,9 +45,17 @@ define([
             editProfileView.render();
         });
         app_router.on('route:showHomePage', function () {
-            console.log("AppRouter showHomePage, loggedIn: " + this.isLoggedIn() + " as " + LoggedInUser.get('first_name'));
-            var mainView = new MainView();
-            mainView.render();
+            if(!LoggedInUser.get('id')){
+                Backbone.trigger('show_invitationPanel');
+                console.log("AppRouter showHomePage, show_invitationPanel");
+            }else {
+
+                var sidePanelView = new SidePanelView();
+                sidePanelView.render();
+                var mainPanelView = new MainPanelView();
+                mainPanelView.render();
+            }
+
         });
         app_router.on('route:logOut', function () {
             console.log("AppRouter logOut");
@@ -66,7 +73,7 @@ define([
             //});
         });
         console.log("AppRouter initialize");
-        app_router.trigger('showHomePage');
+        Backbone.trigger('build_header');
         Backbone.history.start();
     };
     return {

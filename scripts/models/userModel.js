@@ -2,9 +2,9 @@ define(['backbone'], function (Backbone) {
 
     return Backbone.Model.extend({
             defaults: {
-                'first_name': "",
-                'last_name': "",
-                'email': "",
+                'first_name': null,
+                'last_name': null,
+                'email': null,
                 'birthday': null,
                 'phone': null,
                 'address': null,
