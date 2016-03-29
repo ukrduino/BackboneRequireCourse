@@ -29,12 +29,16 @@
     float: right;
 }
 
-input {
+.credentials {
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
-#saveProfile{
+#saveProfile, #cancelEditProfile{
     margin-top: 20px;
     margin-bottom: 20px;
+    margin-left: 10px;
+}
+#profileImage{
+    width: 300px;
 }

@@ -1,4 +1,4 @@
-define(['backbone'], function (Backbone) {
+define(['underscore', 'backbone', 'moment'], function (_, Backbone, moment) {
 
     return Backbone.Model.extend({
             defaults: {
@@ -19,6 +19,24 @@ define(['backbone'], function (Backbone) {
                 'id': null,
                 'person_id': null,
                 'updated_at': null
+            },
+            dateFields: [
+                'birthday',
+                'created_at',
+                'updated_at'
+            ],
+            processDate: function (dateField) {
+                if (this.get(dateField)) {
+                    var momentDate = moment(this.get(dateField));
+                    this.set(dateField, momentDate.format("DD.MM.YYYY"), {silent: true});
+                }
+            },
+            initialize: function () {
+                this.on('change', function () {
+                    _.each(this.dateFields, function (dateField) {
+                        this.processDate(dateField)
+                    }, this);
+                });
             }
         }
     )

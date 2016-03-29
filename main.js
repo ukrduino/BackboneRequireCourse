@@ -6,6 +6,7 @@ requirejs.config({
         underscore: 'underscore',
         text:'text',
         bootstrap: 'bootstrap',
+        moment: 'moment-with-locales',
         userModel: '../models/userModel',
         loggedInUser: '../models/loggedInUser',
         headerView: '../views/headerView',
@@ -14,6 +15,7 @@ requirejs.config({
         sidePanelView: '../views/sidePanelView',
         loginView: '../views/loginView',
         registrationView: '../views/registrationView',
+        profilePageView: '../views/profilePageView',
         editProfileView: '../views/editProfileView',
         app: '../app',
         settings: '../settings',
@@ -30,6 +32,11 @@ requirejs.config({
         },
         "bootstrap" : {
             "deps" :['jquery']
+        }
+    },
+    config: {
+        moment: {
+            noGlobal: true
         }
     }
 });

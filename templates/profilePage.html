@@ -1,0 +1,87 @@
+<div class="col-lg-4">
+    <img src="<%= image_url %>" alt="Profile image not available">
+</div>
+<div class="col-lg-8">
+
+    <h3> Profile Data </h3>
+    <hr/>
+
+    <dl class="dl-horizontal">
+        <dt>First Name:</dt>
+        <dd>
+            <!-- first_name -->
+            <%= first_name !== null ? first_name : "Unknown" %>
+        </dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>Last Name:</dt>
+        <dd>
+            <!-- last_name -->
+            <%= last_name !== null ? last_name : "Unknown" %>
+        </dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>Email:</dt>
+        <dd>
+            <!-- Email -->
+            <%= email %>
+        </dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>Birthday:</dt>
+        <dd>
+            <%= birthday %>
+        </dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>Phone:</dt>
+        <dd>
+            <!-- Phone -->
+            <%= phone %>
+        </dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>Address:</dt>
+        <dd>
+            <!-- address -->
+            <%= address %>
+        </dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>Twitter Account:</dt>
+        <dd>
+            <!-- twitter -->
+            <%= twitter %>
+        </dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>About Yourself:</dt>
+        <dd>
+            <!-- description -->
+            <%= description %>
+        </dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>Status Message:</dt>
+        <dd>
+            <!-- Status -->
+            <%= status %>
+        </dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt><span class="inline-block thin title"> Gender: </span></dt>
+        <dd>
+            <!-- Gender -->
+            <%= gender %>
+        </dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt><span class="inline-block thin title"> Registered: </span></dt>
+        <dd>
+            <!-- Gender -->
+            <%= created_at %>
+        </dd>
+    </dl>
+    <a href="#profile/edit" class="btn btn-warning btn-lg pull-right">Edit Profile</a>
+
+</div>

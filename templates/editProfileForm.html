@@ -1,7 +1,6 @@
 <div class="col-lg-8 col-lg-offset-2">
     <h3> Edit Profile Data </h3>
     <hr/>
-    <form name="update_profile" novalidate>
         <dl class="dl-horizontal profile-data-item" id="email">
             <dt><span class="inline-block thin title"> Email: </span></dt>
             <dd>
@@ -26,7 +25,6 @@
         <dl class="dl-horizontal profile-data-item" id="birthday">
             <dt><span class="inline-block thin title"> Birthday: </span></dt>
             <dd>
-                 birthday
                 <a href="#" id="dob" data-type="combodate" data-pk="1"
                    data-title="Enter Your BirthDay" data-value="<%= birthday %>"></a>
             </dd>
@@ -63,8 +61,7 @@
             <dt><span class="inline-block thin title"> About Yourself: </span></dt>
             <dd>
                 <!-- description -->
-                <textarea class="form-control" rows="3" name="description" placeholder="Few words about">
-                <%= description %></textarea>
+                <textarea class="form-control" rows="3" name="description" placeholder="Few words about"><%= description %></textarea>
             </dd>
         </dl>
         <dl class="dl-horizontal profile-data-item" id="status">
@@ -84,6 +81,6 @@
                 </select>
             </dd>
         </dl>
-        <button class="btn btn-warning btn-lg pull-right" id="saveProfile"> Save Profile</button>
-    </form>
+        <a href="#profile" class="btn btn-warning btn-lg pull-right" id="cancelEditProfile">Cancel</a>
+        <a href="#profile" class="btn btn-success btn-lg pull-right" id="saveProfile">Save Profile</a>
 </div>

@@ -2,6 +2,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'settings',
     'loggedInUser',
     'invitationView',
     'headerView',
@@ -9,8 +10,10 @@ define([
     'mainPanelView',
     'loginView',
     'registrationView',
-    'editProfileView'
-], function ($, _, Backbone, LoggedInUser, InvitationView, HeaderView, SidePanelView, MainPanelView, LoginView, RegistrationView, EditProfileView) {
+    'editProfileView',
+    'profilePageView'
+], function ($, _, Backbone, Settings, LoggedInUser, InvitationView, HeaderView, SidePanelView, MainPanelView, LoginView,
+             RegistrationView, EditProfileView, ProfilePageView) {
     var AppRouter = Backbone.Router.extend({
         routes: {
             '': 'showHomePage',
@@ -36,8 +39,8 @@ define([
         });
         app_router.on('route:showProfilePage', function () {
             console.log("AppRouter showProfilePage");
-            var registrationView = new RegistrationView();
-            registrationView.render();
+            var profilePageView = new ProfilePageView();
+            profilePageView.render();
         });
         app_router.on('route:showEditProfileForm', function () {
             console.log("AppRouter showEditProfileForm");
@@ -63,14 +66,14 @@ define([
             // TODO app_router.trigger('showHomePage') - not working - why?
             app_router.navigate('', {trigger:true}); // Go Home
             // TODO ajax not works due to Access-Control-Allow-Origin
-            //$.ajax({
-            //    url: Settings.get('logOutUrl'),
-            //    data: {api_key:Settings.get('apiKey')},
-            //    type: 'DELETE',
-            //    success: function (result) {
-            //        console.log(result);
-            //    }
-            //});
+            $.ajax({
+                url: Settings.get('logOutUrl'),
+                data: {api_key:Settings.get('apiKey')},
+                type: 'DELETE',
+                success: function (result) {
+                    console.log(result);
+                }
+            });
         });
         console.log("AppRouter initialize");
         Backbone.trigger('build_header');
