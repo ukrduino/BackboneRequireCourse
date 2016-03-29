@@ -63,6 +63,7 @@ define([
         app_router.on('route:logOut', function () {
             console.log("AppRouter logOut");
             LoggedInUser.clear();
+            localStorage.removeItem("loggedInUser");
             // TODO app_router.trigger('showHomePage') - not working - why?
             app_router.navigate('', {trigger:true}); // Go Home
             // TODO ajax not works due to Access-Control-Allow-Origin
@@ -76,6 +77,14 @@ define([
             });
         });
         console.log("AppRouter initialize");
+        if (typeof(Storage) !== "undefined") {
+            var loggedInUserData = localStorage.getItem("loggedInUser");
+            if (!_.isUndefined(loggedInUserData)) {
+                LoggedInUser.set(JSON.parse(loggedInUserData));
+            }
+        } else {
+            console.log('Sorry! No Web Storage support..');
+        }
         Backbone.trigger('build_header');
         Backbone.history.start();
     };

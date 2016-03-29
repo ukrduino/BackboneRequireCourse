@@ -43,6 +43,11 @@ define(['underscore',
         },
         loggedIn: function (responseJson) {
             console.log("LoginView loggedIn as: " + loggedInUser.get('first_name'));
+            if (typeof(Storage) !== "undefined") {
+                localStorage.setItem("loggedInUser", JSON.stringify(responseJson));
+            } else {
+                console.log('Sorry! No Web Storage support..');
+            }
             loggedInUser.set(responseJson);
         }
     });
