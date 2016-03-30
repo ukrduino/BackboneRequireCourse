@@ -30,9 +30,17 @@ define(['underscore',
             var email = $('#email').val();
             var password = $('#password').val();
             var data = {api_key: settings.get("apiKey"), email: email, password: password};
-            $.post(settings.get("loginUrl"), data, function(responseJson){
-                loggedInUser.setUserData(responseJson)
-            });
+            if (this.validateEmail(email)) {
+                $.post(settings.get("loginUrl"), data, function (responseJson) {
+                    loggedInUser.setUserData(responseJson)
+                });
+            }else {
+                $('.error').html('Please enter valid e-mail');
+            }
+        },
+        validateEmail: function (email) {
+            var re = /\S+@\S+\.\S+/;
+            return re.test(email);
         }
     });
 });

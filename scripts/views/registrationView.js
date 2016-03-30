@@ -30,18 +30,22 @@ define(['underscore',
             var email = $('#email').val();
             var password = $('#password').val();
             var passwordConfirmation = $('#passwordConfirmation').val();
-            if (password == passwordConfirmation) {
+            if (password == passwordConfirmation && this.validateEmail(email)) {
                 var data = {api_key: settings.get("apiKey"), email: email, password: password};
                 $.post(settings.get("signUpUrl"), data, function () {
-                    $.post(settings.get("loginUrl"), data, function(responseJson){
+                    $.post(settings.get("loginUrl"), data, function (responseJson) {
                         loggedInUser.setUserData(responseJson)
                     });
                 }).fail(function (data) {
                     console.log("error: ", data.responseText);
                 });
             } else {
-                this.render();
+                $('.error').html('Please enter valid e-mail and/or confirm password');
             }
+        },
+        validateEmail: function (email) {
+            var re = /\S+@\S+\.\S+/;
+            return re.test(email);
         }
     })
 });
