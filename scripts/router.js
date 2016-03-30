@@ -63,7 +63,7 @@ define([
         app_router.on('route:logOut', function () {
             console.log("AppRouter logOut");
             LoggedInUser.clear();
-            localStorage.removeItem("loggedInUser");
+            sessionStorage.clear();
             // TODO app_router.trigger('showHomePage') - not working - why?
             app_router.navigate('', {trigger:true}); // Go Home
             // TODO ajax not works due to Access-Control-Allow-Origin
@@ -78,9 +78,9 @@ define([
         });
         console.log("AppRouter initialize");
         if (typeof(Storage) !== "undefined") {
-            var loggedInUserData = localStorage.getItem("loggedInUser");
+            var loggedInUserData = sessionStorage.getItem("loggedInUser");
             if (!_.isUndefined(loggedInUserData)) {
-                LoggedInUser.set(JSON.parse(loggedInUserData));
+                LoggedInUser.setUserData(JSON.parse(loggedInUserData));
             }
         } else {
             console.log('Sorry! No Web Storage support..');

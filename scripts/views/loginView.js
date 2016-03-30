@@ -15,7 +15,6 @@ define(['underscore',
         events: {
             'click #loginButton': 'login'
         },
-        model:loggedInUser,
 
         initialize: function () {
             console.log("LoginView initialize");
@@ -31,25 +30,9 @@ define(['underscore',
             var email = $('#email').val();
             var password = $('#password').val();
             var data = {api_key: settings.get("apiKey"), email: email, password: password};
-            $.post(settings.get("loginUrl"), data, this.loggedIn)
-                .done(function (collection, response, options) {
-                })
-                //TODO how to get error response from server
-                .fail(function (response) {
-                    console.log("error: ", response);
-                })
-                .always(function () {
-                });
-        },
-        loggedIn: function (responseJson) {
-            console.log("LoginView loggedIn as: " + loggedInUser.get('first_name'));
-            if (typeof(Storage) !== "undefined") {
-                localStorage.setItem("loggedInUser", JSON.stringify(responseJson));
-            } else {
-                console.log('Sorry! No Web Storage support..');
-            }
-            loggedInUser.set(responseJson);
+            $.post(settings.get("loginUrl"), data, function(responseJson){
+                loggedInUser.setUserData(responseJson)
+            });
         }
     });
-})
-;
+});
