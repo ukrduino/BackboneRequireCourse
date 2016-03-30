@@ -7,6 +7,7 @@ requirejs.config({
         text:'text',
         bootstrap: 'bootstrap',
         moment: 'moment-with-locales',
+        datepicker: 'bootstrap-datepicker',
         userModel: '../models/userModel',
         loggedInUser: '../models/loggedInUser',
         headerView: '../views/headerView',
@@ -32,6 +33,9 @@ requirejs.config({
         },
         "bootstrap" : {
             "deps" :['jquery']
+        },
+        "datepicker" : {
+            deps: ["jquery"]
         }
     },
     config: {
