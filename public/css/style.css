@@ -1,12 +1,21 @@
-#contentTemplate{
-    background-color: #2b542c;
-    color: white;
+/*#contentTemplate{*/
+    /*background-color: #2b542c;*/
+    /*color: white;*/
+/*}*/
+
+/*#sidePanelTemplate{*/
+    /*background-color: #2e6da4;*/
+    /*color: white;*/
+
+/*}*/
+.mainPagePanelsTitle{
+    text-align: center;
 }
-
-#sidePanelTemplate{
-    background-color: #2e6da4;
-    color: white;
-
+.message-fields{
+    margin-bottom: 10px;
+}
+#add-new-message{
+    float: right;
 }
 
 #contentBlock{
@@ -41,4 +50,7 @@
 }
 #profileImage{
     width: 300px;
+}
+#profileImageSmall{
+    width: 200px;
 }
