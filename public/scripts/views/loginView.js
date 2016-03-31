@@ -33,6 +33,9 @@ define(['underscore',
             if (this.validateEmail(email)) {
                 $.post(settings.get("loginUrl"), data, function (responseJson) {
                     loggedInUser.setUserData(responseJson)
+                }).fail(function(res){
+                    var response = JSON.parse(res.responseText);
+                    $('.error').html(response.error);
                 });
             }else {
                 $('.error').html('Please enter valid e-mail');

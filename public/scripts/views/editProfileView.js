@@ -28,27 +28,30 @@ define(['underscore',
         },
 
         updateProfile: function () {
-            console.log(111);
-            console.log($('#birthday').val());
+            var loggedInUserData = LoggedInUser.toJSON();
             var data = {};
-            var userId = LoggedInUser.get('id');
-            var updateUrl = settings.get('usersUrl') + userId;
-            data['api_key'] = settings.get('apiKey');
-            if (!($('#first_name').val() === "")) { data['first_name'] = $('#first_name').val(); }
-            if (!($('#last_name').val() === "")) { data['last_name'] = $('#last_name').val(); }
-            if (!($('#birthday').val() === "")) {
-                var newDate = new Date($('#birthday').val());
-                data['birthday'] = newDate;
+            data['first_name'] = $('#first_name').val();
+            data['last_name'] = $('#last_name').val();
+            data['birthday'] = $('#birthday').val();
+            data['phone'] = $('#phone').val();
+            data['address'] = $('#address').val();
+            data['image_url'] = $('#image_url').val();
+            data['twitter'] = $('#twitter').val();
+            data['description'] = $('#description').val();
+            data['status'] = $('#status').val();
+            data['gender'] = $('#gender').val();
+
+            for (var property in data) {
+                if (data[property] == loggedInUserData[property] || data[property] === "") {
+                    delete data[property];
+                }
             }
-            if (!($('#phone').val() === "")) { data['phone'] = $('#phone').val(); }
-            if (!($('#address').val() === "")) { data['address'] = $('#address').val(); }
-            if (!($('#image_url').val() === "")) { data['image_url'] = $('#image_url').val(); }
-            if (!($('#twitter').val() === "")) { data['twitter'] = $('#twitter').val(); }
-            if (!($('#description').val() === "")) { data['description'] = $('#description').val(); }
-            if (!($('#status').val() === "")) { data['status'] = $('#status').val(); }
-            if (!($('#gender').val() === "")) {
-                console.log($('#gender').val());
-                data['gender'] = $('#gender').val(); }
+            if (data['birthday']) {
+                data['birthday'] = new Date(data['birthday']);
+            }
+
+            var updateUrl = settings.get('usersUrl') + LoggedInUser.get('id');
+            data['api_key'] = settings.get('apiKey');
 
             $.ajax({
                 url: updateUrl,
