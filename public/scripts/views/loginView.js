@@ -32,7 +32,8 @@ define(['underscore',
             var data = {api_key: settings.get("apiKey"), email: email, password: password};
             if (this.validateEmail(email)) {
                 $.post(settings.get("loginUrl"), data, function (responseJson) {
-                    loggedInUser.setUserData(responseJson)
+                    loggedInUser.setUserData(responseJson);
+                    Backbone.history.navigate('',{trigger: true});
                 }).fail(function(res){
                     var response = JSON.parse(res.responseText);
                     $('.error').html(response.error);

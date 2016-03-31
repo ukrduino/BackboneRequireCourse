@@ -59,12 +59,11 @@ define(['underscore',
                 data: data,
                 success: function (result) {
                     LoggedInUser.setUserData(result);
-                    Backbone.navigate('profile');
+                    Backbone.history.navigate('profile',{trigger: true});
                 },
                 error: function (answer) {
                     console.log( "error: ", answer.responseText );
                 }
-
             });
         }
     });

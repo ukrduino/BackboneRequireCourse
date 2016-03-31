@@ -64,15 +64,13 @@ define([
             console.log("AppRouter logOut");
             LoggedInUser.clear();
             sessionStorage.clear();
-            // TODO app_router.trigger('showHomePage') - not working - why?
-            app_router.navigate('', {trigger:true}); // Go Home
-            // TODO ajax not works due to Access-Control-Allow-Origin
             $.ajax({
                 url: Settings.get('logOutUrl'),
                 data: {api_key:Settings.get('apiKey')},
                 type: 'DELETE',
                 success: function (result) {
                     console.log(result);
+                    Backbone.history.navigate('',{trigger: true});
                 }
             });
         });

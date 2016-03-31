@@ -23,8 +23,6 @@ define(['underscore',
         render: function () {
             console.log("headerView render with user:" + LoggedInUser.get('first_name'));
             this.$el.html(this.headerTemplate(LoggedInUser));
-            //After login/logout user goes to home page
-            Backbone.history.navigate('',{trigger: true});
         }
     });
     return new HeaderView();
