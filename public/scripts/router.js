@@ -12,7 +12,7 @@ define([
     'registrationView',
     'editProfileView',
     'profilePageView'
-], function ($, _, Backbone, Settings, LoggedInUser, InvitationView, HeaderView, SidePanelView, MainPanelView, LoginView,
+], function ($, _, Backbone, Settings, LoggedInUser, InvitationView, HeaderView, SidePanelView, MessagePanelView, LoginView,
              RegistrationView, EditProfileView, ProfilePageView) {
     var AppRouter = Backbone.Router.extend({
         routes: {
@@ -52,13 +52,10 @@ define([
                 Backbone.trigger('show_invitationPanel');
                 console.log("AppRouter showHomePage, show_invitationPanel");
             }else {
-
                 var sidePanelView = new SidePanelView();
                 sidePanelView.render();
-                var mainPanelView = new MainPanelView();
-                mainPanelView.render();
+                new MessagePanelView();
             }
-
         });
         app_router.on('route:logOut', function () {
             console.log("AppRouter logOut");
