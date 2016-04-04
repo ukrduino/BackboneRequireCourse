@@ -10,6 +10,8 @@ requirejs.config({
         datepicker: 'bootstrap-datepicker',
         userModel: '../models/userModel',
         loggedInUser: '../models/loggedInUser',
+        messageModel: '../models/message',
+        messagesCollection: '../collections/messages',
         headerView: '../views/headerView',
         invitationView: '../views/invitationView',
         messagesPanelView: '../views/messagesPanelView',
