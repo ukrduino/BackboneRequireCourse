@@ -13,7 +13,7 @@ define(['underscore',
 
     var HeaderView =  Backbone.View.extend({
         el: $('#header'),
-        headerTemplate: _.template(headerTemplate),
+        template: _.template(headerTemplate),
 
         initialize: function () {
             console.log("headerView initialize and set events");
@@ -22,7 +22,7 @@ define(['underscore',
         },
         render: function () {
             console.log("headerView render with user:" + LoggedInUser.get('first_name'));
-            this.$el.html(this.headerTemplate(LoggedInUser));
+            this.$el.html(this.template(LoggedInUser));
         }
     });
     return new HeaderView();

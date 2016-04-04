@@ -10,7 +10,7 @@ define(['underscore',
 
     var InvitationView = Backbone.View.extend({
         el: $('#contentBlock'),
-        headerTemplate: _.template(invitationPanelTemplate),
+        template: _.template(invitationPanelTemplate),
 
         initialize: function () {
             console.log("invitationView initialize and set events");
@@ -18,7 +18,7 @@ define(['underscore',
         },
         render: function () {
             console.log("invitationView render");
-            this.$el.html(this.headerTemplate());
+            this.$el.html(this.template());
         }
     });
     return new InvitationView();

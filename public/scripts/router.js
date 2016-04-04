@@ -7,7 +7,7 @@ define([
     'invitationView',
     'headerView',
     'sidePanelView',
-    'mainPanelView',
+    'messagesPanelView',
     'loginView',
     'registrationView',
     'editProfileView',
