@@ -11,17 +11,20 @@ define(['underscore',
 
     return Backbone.View.extend({
         //TODO implement message editing
-        events:{
+        events: {
             'click #editMessage': 'editMessage'
         },
         template: _.template(messageTemplate),
         initialize: function () {
 
         },
-        render: function (messageJson) {
-            console.log("Message render: " + messageJson);
-            this.$el.html(this.template(JSON.parse(messageJson)));
+        render: function () {
+            console.log("Message render: " + this.model.get('subject'));
+            this.$el.html(this.template(this.model.toJSON));
             return this;
+        },
+        editMessage: function () {
+            console.log("editMessage");
         }
     });
 });
