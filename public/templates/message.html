@@ -1,5 +1,7 @@
 <div class="panel panel-default">
-    <div class="panel-heading"><%= record_type %> from <%= sender_id %></div>
+    <div class="panel-heading"><%= record_type %> from <%= sender_id %>
+        <div class="messageAdded">added : <%= created_at %></div>
+    </div>
     <div class="panel-body">
         <h4><%= subject !== null ? subject : "" %></h4>
         <p><%= description !== null ? description : "" %></p>

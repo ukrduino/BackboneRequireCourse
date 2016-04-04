@@ -17,6 +17,9 @@
 #add-new-message{
     float: right;
 }
+.messageAdded{
+    float: right;
+}
 
 #contentBlock{
     margin-top: 100px;
