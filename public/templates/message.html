@@ -1,0 +1,8 @@
+<div class="panel panel-default">
+    <div class="panel-heading"><%= record_type %> from <%= sender_id %></div>
+    <div class="panel-body">
+        <h4><%= subject !== null ? subject : "" %></h4>
+        <p><%= description !== null ? description : "" %></p>
+    </div>
+    <div class="panel-footer"><%= image_url !== null ? image_url : "" %><%= video_url !== null ? video_url : "" %></div>
+</div>
