@@ -52,14 +52,17 @@
     margin-left: 10px;
 }
 
-#profileImage{
-    width: 300px;
+.profileImage{
+    width: 200px;
 }
 
 #profileImageSmall{
     width: 200px;
 }
 /*User Card*/
+.userData{
+    font-weight: 600;
+}
 
 
 

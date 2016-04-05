@@ -42,9 +42,12 @@ define(['underscore',
         showUsers: function () {
             var that = this;
             this.collection.each(function (userModel) {
+                    userModel.set('isFriend', false);
                     that.addUserCardToUsersSearchPanel(userModel)
                 }
             );
+            // enable Bootstrap tooltips after rendering
+            $('[data-toggle="tooltip"]').tooltip();
         },
         addUserCardToUsersSearchPanel: function (userModel) {
             var userCardView = new UserCardView({model: userModel});

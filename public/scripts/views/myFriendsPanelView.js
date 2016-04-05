@@ -43,9 +43,12 @@ define(['underscore',
         showFriends: function () {
             this.collection.each(function (userModel) {
                     console.log('collection.each', userModel);
+                    userModel.set('isFriend', true);
                     this.addUserCardToFriendsPanel(userModel)
                 }
             );
+            // enable Bootstrap tooltips after rendering
+            $('[data-toggle="tooltip"]').tooltip();
         },
         addUserCardToFriendsPanel: function (userModel) {
             console.log('addUserCardToFriendsPanel');
