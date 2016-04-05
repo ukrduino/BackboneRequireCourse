@@ -13,7 +13,7 @@ define(['underscore',
     'bootstrap'], function (_, $, Backbone, settings, MessageModel, MessagesCollection, MessageView, messagesPanelTemplate) {
 
     return Backbone.View.extend({
-        el: $('#contentBlock'),
+        el: '#messagesPanel',
         events: {
             'click #postMessage': 'postMessage'
         },
@@ -40,8 +40,7 @@ define(['underscore',
         },
         render: function () {
             console.log("Message panel render");
-            $('#contentPanel').remove();
-            this.$el.append(_.template(messagesPanelTemplate));
+            this.$el.html(_.template(messagesPanelTemplate));
             return this;
         },
         postMessage: function () {

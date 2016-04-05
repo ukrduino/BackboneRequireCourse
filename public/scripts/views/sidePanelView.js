@@ -10,7 +10,7 @@ define(['underscore',
     'bootstrap'], function (_, $, Backbone, LoggedInUser, sidePanelTemplate) {
 
     return Backbone.View.extend({
-        el: $('#contentBlock'),
+        el: '#sidePanel',
         template:_.template(sidePanelTemplate),
         initialize: function () {
             this.render();
