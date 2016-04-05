@@ -19,6 +19,7 @@ define(['underscore',
         render: function () {
             console.log("invitationView render");
             this.$el.html(this.template());
+            return this;
         }
     });
     return new InvitationView();

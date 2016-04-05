@@ -23,6 +23,7 @@ define(['underscore',
         render: function () {
             console.log("registrationView render");
             this.$el.html(_.template(registrationFormTemplate));
+            return this;
         },
 
         register: function () {

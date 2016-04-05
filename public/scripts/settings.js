@@ -7,7 +7,8 @@ define(['backbone'], function (Backbone) {
             logOutUrl:"api/sign_out",
             signUpUrl:"api/sign_up",
             usersUrl:"api/users/",
-            wallPosts:"api/wall_posts/"
+            wallPosts:"api/wall_posts/",
+            friends:"api/friends/"
         }
     });
 

@@ -23,6 +23,7 @@ define(['underscore',
         render: function () {
             console.log("LoginView render");
             this.$el.html(_.template(loginFormTemplate));
+            return this;
         },
 
         login: function () {

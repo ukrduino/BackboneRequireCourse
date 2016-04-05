@@ -19,6 +19,7 @@ define(['underscore',
         render: function () {
             console.log("profilePageView render");
             this.$el.html(this.template(LoggedInUser.toJSON()));
+            return this;
         }
     });
 });

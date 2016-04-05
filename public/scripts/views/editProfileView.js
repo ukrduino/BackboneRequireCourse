@@ -25,6 +25,7 @@ define(['underscore',
             console.log("editProfileView render");
             this.$el.html(this.template(LoggedInUser.toJSON()));
             $('#birthday').datepicker();
+            return this;
         },
 
         updateProfile: function () {

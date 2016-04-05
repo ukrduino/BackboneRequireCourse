@@ -23,6 +23,7 @@ define(['underscore',
         render: function () {
             console.log("headerView render with user:" + LoggedInUser.get('first_name'));
             this.$el.html(this.template(LoggedInUser));
+            return this;
         }
     });
     return new HeaderView();

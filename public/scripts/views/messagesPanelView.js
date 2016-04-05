@@ -42,6 +42,7 @@ define(['underscore',
             console.log("Message panel render");
             $('#contentPanel').remove();
             this.$el.append(_.template(messagesPanelTemplate));
+            return this;
         },
         postMessage: function () {
             var that = this; // saving context to that variable
