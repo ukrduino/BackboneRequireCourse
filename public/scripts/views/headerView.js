@@ -1,5 +1,5 @@
 /**
- *    Header panel View
+ *    Header panel View (Singletone as its used on all pages)
  */
 
 define(['underscore',

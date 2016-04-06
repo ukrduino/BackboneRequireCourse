@@ -9,36 +9,27 @@ define(['underscore',
     'eventDispatcher',
     'loggedInUser',
     'usersCollection',
+    'friendsCollection',
     'userCardView',
     'text!../../templates/searchUsersPanel.html',
-    'bootstrap'], function (_, $, Backbone, settings, eventDispatcher, LoggedInUser, UsersCollection, UserCardView, searchUsersPanelTemplate) {
+    'bootstrap'], function (_, $, Backbone, settings, eventDispatcher, LoggedInUser, UsersCollection, FriendsCollection, UserCardView, searchUsersPanelTemplate) {
 
     return Backbone.View.extend({
         el: '#userSearchPanel',
         template: _.template(searchUsersPanelTemplate),
         usersCollection: new UsersCollection(),
-        friendsCollection: new UsersCollection(),
-        events : {
+        friendsCollection: new FriendsCollection(),
+        events: {
             "click .addFriend": 'addFriend',
             "click .viewProfile": 'viewProfile'
         },
 
         initialize: function () {
-            //this.listenTo(this.collection, "change reset add remove", this.showUsers());
-            this.render();
-            var that = this;
-            console.log("User Search panel initialize fetch");
-            this.collection.fetch({
-                data: {api_key: settings.get('apiKey')},
-                reset: true,
-                success: function (collection, response, options) {
-                    console.log('Users collection fetch success');
-                    that.showUsers();
-                },
-                error: function (collection, response, options) {
-                    console.log('error');
-                }
+            this.listenTo(eventDispatcher, 'searchUsersPanelView:fetchUsersCollection', function () {
+                this.fetchUsersCollection();
             });
+            this.render();
+            this.fetchUsersCollection();
         },
         render: function () {
             console.log("Users Search panel render");
@@ -47,19 +38,37 @@ define(['underscore',
         },
         showUsers: function () {
             var that = this;
-            this.collection.each(function (userModel) {
-                    userModel.set('isFriend', false);
-                    that.addUserCardToUsersSearchPanel(userModel)
+            this.friendsCollection.fetch({
+                data: {api_key: settings.get('apiKey')},
+                reset: true,
+                success: function (collection, response, options) {
+                    console.log('friendsCollection fetch success');
+                    $('#users').empty();
+                    that.usersCollection.each(function (userModel) {
+                            if (!_.isUndefined(that.friendsCollection.get(userModel.get('id')))) {
+                                console.log('friend', userModel);
+                                userModel.set('isFriend', true);
+                            } else {
+                                userModel.set('isFriend', false);
+                            }
+                            that.addUserCardToUsersSearchPanel(userModel)
+                        }
+                    );
+                    // enable Bootstrap tooltips after rendering
+                    $('[data-toggle="tooltip"]').tooltip();
+                },
+                error: function (collection, response, options) {
+                    console.log('error');
                 }
-            );
-            // enable Bootstrap tooltips after rendering
-            $('[data-toggle="tooltip"]').tooltip();
+            });
+
         },
         addUserCardToUsersSearchPanel: function (userModel) {
             var userCardView = new UserCardView({model: userModel});
             $('#users').append(userCardView.render().el);
         },
         addFriend: function (event) {
+            var that = this;
             var data = {api_key: settings.get('apiKey')};
             data['user_id'] = $(event.currentTarget).data('id');
             console.log(data['user_id']);
@@ -68,11 +77,26 @@ define(['underscore',
                 data: data,
                 type: 'POST',
                 success: function () {
-                    eventDispatcher.trigger('update_friends_panel');
+                    eventDispatcher.trigger('myFriendsPanelView:fetchCollection');
+                    that.showUsers();
                     console.log('add_friend success');
                 },
                 error: function () {
                     console.log('add_friend error');
+                }
+            });
+        },
+        fetchUsersCollection: function () {
+            var that = this;
+            this.usersCollection.fetch({
+                data: {api_key: settings.get('apiKey')},
+                reset: true,
+                success: function (collection, response, options) {
+                    console.log('usersCollection fetch success');
+                    that.showUsers();
+                },
+                error: function (collection, response, options) {
+                    console.log('error');
                 }
             });
         }

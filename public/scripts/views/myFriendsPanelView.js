@@ -21,7 +21,7 @@ define(['underscore',
         initialize: function () {
             this.render();
             this.fetchCollection();
-            this.listenTo(eventDispatcher,'update_friends_panel', function () {
+            this.listenTo(eventDispatcher,'myFriendsPanelView:fetchCollection', function () {
                 this.fetchCollection();
             });
         },
@@ -59,6 +59,9 @@ define(['underscore',
         addUserCardToFriendsPanel: function (userModel) {
             var userCardView = new UserCardView({model: userModel});
             $('#friends').append(userCardView.render().el);
+        },
+        removeFriend: function () {
+            eventDispatcher.trigger('searchUsersPanelView:fetchUsersCollection');
         }
     });
 });
