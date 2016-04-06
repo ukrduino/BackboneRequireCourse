@@ -6,20 +6,26 @@ define(['underscore',
     'jquery',
     'backbone',
     'settings',
+    'eventDispatcher',
     'loggedInUser',
     'usersCollection',
     'userCardView',
     'text!../../templates/searchUsersPanel.html',
-    'bootstrap'], function (_, $, Backbone, settings, LoggedInUser, UsersCollection, UserCardView, searchUsersPanelTemplate) {
+    'bootstrap'], function (_, $, Backbone, settings, eventDispatcher, LoggedInUser, UsersCollection, UserCardView, searchUsersPanelTemplate) {
 
     return Backbone.View.extend({
         el: '#userSearchPanel',
         template: _.template(searchUsersPanelTemplate),
-        collection: new UsersCollection(),
+        usersCollection: new UsersCollection(),
+        friendsCollection: new UsersCollection(),
+        events : {
+            "click .addFriend": 'addFriend',
+            "click .viewProfile": 'viewProfile'
+        },
 
         initialize: function () {
+            //this.listenTo(this.collection, "change reset add remove", this.showUsers());
             this.render();
-            this.listenTo(this.collection, "change reset add remove", this.showUsers());
             var that = this;
             console.log("User Search panel initialize fetch");
             this.collection.fetch({
@@ -52,6 +58,23 @@ define(['underscore',
         addUserCardToUsersSearchPanel: function (userModel) {
             var userCardView = new UserCardView({model: userModel});
             $('#users').append(userCardView.render().el);
+        },
+        addFriend: function (event) {
+            var data = {api_key: settings.get('apiKey')};
+            data['user_id'] = $(event.currentTarget).data('id');
+            console.log(data['user_id']);
+            $.ajax({
+                url: '/api/add_friend',
+                data: data,
+                type: 'POST',
+                success: function () {
+                    eventDispatcher.trigger('update_friends_panel');
+                    console.log('add_friend success');
+                },
+                error: function () {
+                    console.log('add_friend error');
+                }
+            });
         }
     });
 });

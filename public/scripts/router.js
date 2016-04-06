@@ -3,6 +3,7 @@ define([
     'underscore',
     'backbone',
     'settings',
+    'eventDispatcher',
     'loggedInUser',
     'invitationView',
     'headerView',
@@ -16,7 +17,7 @@ define([
     'searchUserPanelView',
     'text!../../templates/homePageBaseTemplate.html',
     'text!../../templates/friendsPageBaseTemplate.html'
-], function ($, _, Backbone, Settings, LoggedInUser, InvitationView, HeaderView, SidePanelView, MessagePanelView, LoginView,
+], function ($, _, Backbone, Settings, eventDispatcher, LoggedInUser, InvitationView, HeaderView, SidePanelView, MessagePanelView, LoginView,
              RegistrationView, EditProfileView, ProfilePageView, MyFriendsPanelView, SearchUsersPanelView, homePageBaseTemplate,friendsPageBaseTemplate) {
     var AppRouter = Backbone.Router.extend({
         routes: {
@@ -27,58 +28,52 @@ define([
             'profile': 'showProfilePage',
             'profile/edit': 'showEditProfileForm',
             'friends': 'showFriendsPage'
+        },
+        userIsLoggedIn: function () {
+            return !_.isNull(LoggedInUser.get('id')) && !_.isUndefined(LoggedInUser.get('id'))
         }
     });
 
     var initialize = function () {
         var app_router = new AppRouter;
         app_router.on('route:showLoginForm', function () {
-            console.log("AppRouter showLoginForm");
             var loginView = new LoginView();
             loginView.render();
         });
         app_router.on('route:showRegistrationForm', function () {
-            console.log("AppRouter showRegistrationForm");
             var registrationView = new RegistrationView();
             registrationView.render();
         });
         app_router.on('route:showProfilePage', function () {
-            if (!_.isNull(LoggedInUser.get('id'))) {
-                console.log("AppRouter showProfilePage");
+            if (this.userIsLoggedIn()) {
                 var profilePageView = new ProfilePageView();
                 profilePageView.render();
             }
         });
         app_router.on('route:showEditProfileForm', function () {
-            if (!_.isNull(LoggedInUser.get('id'))) {
-                console.log("AppRouter showEditProfileForm");
+            if (this.userIsLoggedIn()) {
                 var editProfileView = new EditProfileView();
                 editProfileView.render();
-                console.log(LoggedInUser.get('id'));
             }
         });
         app_router.on('route:showFriendsPage', function () {
-            if (!_.isNull(LoggedInUser.get('id'))) {
-                console.log("AppRouter showFriendsPage");
+            if (this.userIsLoggedIn()) {
                 $('#contentBlock').empty().append(_.template(friendsPageBaseTemplate));
                 new MyFriendsPanelView();
                 new SearchUsersPanelView();
             }
         });
         app_router.on('route:showHomePage', function () {
-            if (_.isNull(LoggedInUser.get('id'))) {
-                Backbone.trigger('show_invitationPanel');
-                console.log("AppRouter showHomePage, show_invitationPanel");
+            if (!this.userIsLoggedIn()) {
+                eventDispatcher.trigger('InvitationView:render');
             } else {
-                console.log("AppRouter showHomePage, showHomePage");
                 $('#contentBlock').empty().append(_.template(homePageBaseTemplate));
                 new SidePanelView();
                 new MessagePanelView();
             }
         });
         app_router.on('route:logOut', function () {
-            if (!_.isNull(LoggedInUser.get('id'))) {
-                console.log("AppRouter logOut");
+            if (this.userIsLoggedIn()) {
                 LoggedInUser.clear();
                 sessionStorage.clear();
                 $.ajax({
@@ -86,13 +81,11 @@ define([
                     data: {api_key: Settings.get('apiKey')},
                     type: 'DELETE',
                     success: function (result) {
-                        console.log(result);
                         Backbone.history.navigate('', {trigger: true});
                     }
                 });
             }
         });
-        console.log("AppRouter initialize");
         if (typeof(Storage) !== "undefined") {
             var loggedInUserData = sessionStorage.getItem("loggedInUser");
             if (!_.isUndefined(loggedInUserData)) {
@@ -101,7 +94,7 @@ define([
         } else {
             console.log('Sorry! No Web Storage support..');
         }
-        Backbone.trigger('build_header');
+        eventDispatcher.trigger('HeaderView:render');
         Backbone.history.start();
     };
     return {

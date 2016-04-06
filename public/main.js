@@ -28,8 +28,8 @@ requirejs.config({
         userCardView: '../views/userCardView',
         app: '../app',
         settings: '../settings',
-        router: '../router'
-
+        router: '../router',
+        eventDispatcher: '../eventDispatcher'
     },
     shim: {
         'underscore': {

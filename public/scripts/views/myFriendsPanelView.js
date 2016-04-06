@@ -6,22 +6,32 @@ define(['underscore',
     'jquery',
     'backbone',
     'settings',
+    'eventDispatcher',
     'loggedInUser',
     'friendsCollection',
     'userCardView',
     'text!../../templates/myFriendsPanel.html',
-    'bootstrap'], function (_, $, Backbone, settings, LoggedInUser, FriendsCollection, UserCardView, myFriendsPanelTemplate) {
+    'bootstrap'], function (_, $, Backbone, settings, eventDispatcher, LoggedInUser, FriendsCollection, UserCardView, myFriendsPanelTemplate) {
 
     return Backbone.View.extend({
         el: '#friendsPanel',
-        template:_.template(myFriendsPanelTemplate),
+        template: _.template(myFriendsPanelTemplate),
         collection: new FriendsCollection(),
 
         initialize: function () {
             this.render();
-            this.listenTo(this.collection, "change reset add remove", this.showFriends());
+            this.fetchCollection();
+            this.listenTo(eventDispatcher,'update_friends_panel', function () {
+                this.fetchCollection();
+            });
+        },
+        render: function () {
+            this.$el.html(this.template);
+            return this;
+        },
+        fetchCollection: function () {
             var that = this;
-            console.log("Friends panel initialize fetch");
+            console.log("Friends panel collection fetch");
             this.collection.fetch({
                 data: {api_key: settings.get('apiKey')},
                 reset: true,
@@ -35,23 +45,18 @@ define(['underscore',
             });
         },
 
-        render: function () {
-            console.log("Friends panel render");
-            this.$el.html(this.template);
-            return this;
-        },
         showFriends: function () {
+            var that = this;
+            $('#friends').empty();
             this.collection.each(function (userModel) {
-                    console.log('collection.each', userModel);
                     userModel.set('isFriend', true);
-                    this.addUserCardToFriendsPanel(userModel)
+                    that.addUserCardToFriendsPanel(userModel)
                 }
             );
             // enable Bootstrap tooltips after rendering
             $('[data-toggle="tooltip"]').tooltip();
         },
         addUserCardToFriendsPanel: function (userModel) {
-            console.log('addUserCardToFriendsPanel');
             var userCardView = new UserCardView({model: userModel});
             $('#friends').append(userCardView.render().el);
         }
