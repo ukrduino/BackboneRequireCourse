@@ -10,7 +10,9 @@ define(['backbone'], function (Backbone) {
             wallPosts:"api/wall_posts/",
             friends:"api/friends/",
             searchFriends:"api/friends/search",
-            searchUsers:"api/users/"
+            searchUsers:"api/users/",
+            addFriend:"api/add_friend",
+            removeFriend:"api/remove_friend/"
         }
     });
 

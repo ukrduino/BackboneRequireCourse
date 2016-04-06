@@ -46,10 +46,9 @@ define(['underscore',
                     $('#users').empty();
                     that.usersCollection.each(function (userModel) {
                             if (!_.isUndefined(that.friendsCollection.get(userModel.get('id')))) {
-                                console.log('friend', userModel);
-                                userModel.set('isFriend', true);
+                                userModel.set('isFriend', true).set('showDeleteButton', false);
                             } else {
-                                userModel.set('isFriend', false);
+                                userModel.set('isFriend', false).set('showDeleteButton', false);
                             }
                             that.addUserCardToUsersSearchPanel(userModel)
                         }
@@ -73,7 +72,7 @@ define(['underscore',
             data['user_id'] = $(event.currentTarget).data('id');
             console.log(data['user_id']);
             $.ajax({
-                url: '/api/add_friend',
+                url: settings.get('addFriend'),
                 data: data,
                 type: 'POST',
                 success: function () {

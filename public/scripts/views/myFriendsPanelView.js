@@ -17,11 +17,14 @@ define(['underscore',
         el: '#friendsPanel',
         template: _.template(myFriendsPanelTemplate),
         collection: new FriendsCollection(),
-
+        events: {
+            "click .removeFriend": 'removeFriend',
+            "click .viewProfile": 'viewProfile'
+        },
         initialize: function () {
             this.render();
             this.fetchCollection();
-            this.listenTo(eventDispatcher,'myFriendsPanelView:fetchCollection', function () {
+            this.listenTo(eventDispatcher, 'myFriendsPanelView:fetchCollection', function () {
                 this.fetchCollection();
             });
         },
@@ -49,7 +52,7 @@ define(['underscore',
             var that = this;
             $('#friends').empty();
             this.collection.each(function (userModel) {
-                    userModel.set('isFriend', true);
+                    userModel.set('isFriend', true).set('showDeleteButton', true);
                     that.addUserCardToFriendsPanel(userModel)
                 }
             );
@@ -60,8 +63,23 @@ define(['underscore',
             var userCardView = new UserCardView({model: userModel});
             $('#friends').append(userCardView.render().el);
         },
-        removeFriend: function () {
-            eventDispatcher.trigger('searchUsersPanelView:fetchUsersCollection');
+        removeFriend: function (event) {
+            var data = {api_key: settings.get('apiKey')};
+            var user_id = $(event.currentTarget).data('id');
+            console.log('removeFriend :', user_id);
+            $.ajax({
+                url: settings.get('removeFriend') + user_id,
+                data: data,
+                type: 'DELETE',
+                success: function () {
+                    console.log('removeFriend success');
+                    eventDispatcher.trigger('searchUsersPanelView:fetchUsersCollection');
+                    eventDispatcher.trigger('myFriendsPanelView:fetchCollection');
+                },
+                error: function () {
+                    console.log('removeFriend error');
+                }
+            });
         }
     });
 });
