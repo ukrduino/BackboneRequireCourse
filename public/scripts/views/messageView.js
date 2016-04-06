@@ -15,7 +15,6 @@ define(['underscore',
         },
         render: function () {
             this.model.processDates();
-            console.log("Message render: " + this.model.get('subject'));
             this.$el.html(this.template(this.model.toJSON()));
             return this;
         }

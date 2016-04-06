@@ -28,7 +28,6 @@ define(['underscore',
                     that.render();
                     console.log('success');
                     collection.each(function (model) {
-                            console.log('collection.each', model);
                             that.addMessageToWall(model)
                         }
                     );
@@ -39,7 +38,6 @@ define(['underscore',
             });
         },
         render: function () {
-            console.log("Message panel render");
             this.$el.html(_.template(messagesPanelTemplate));
             return this;
         },
@@ -72,7 +70,6 @@ define(['underscore',
             newMessage.save({}, {
                 success: function (model, response) {
                     that.addMessageToWall(model);
-                    //that.addMessageToWall(new MessageModel(response));
                 },
                 error: function (model, response) {
                     console.log('error', response);
@@ -80,7 +77,6 @@ define(['underscore',
             });
         },
         addMessageToWall: function (messageModel) {
-            console.log('addMessageToWall');
             var messageView = new MessageView({model: messageModel});
             $('#messages').append(messageView.render().el);
         }

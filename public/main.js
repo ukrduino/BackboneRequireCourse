@@ -58,6 +58,5 @@ require([
     'app'
 ], function(App){
     // The "app" dependency is passed in as "App"
-    console.log("main.js require");
     App.initialize();
 });

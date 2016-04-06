@@ -11,13 +11,12 @@ define(['underscore',
 
     return Backbone.View.extend({
         el: '#sidePanel',
-        template:_.template(sidePanelTemplate),
+        template: _.template(sidePanelTemplate),
         initialize: function () {
             this.render();
         },
 
         render: function () {
-            console.log("Side panel render");
             this.$el.empty();
             this.$el.html(this.template(LoggedInUser.toJSON()));
             return this;
