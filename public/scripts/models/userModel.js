@@ -25,6 +25,8 @@ define(['underscore', 'backbone', 'moment'], function (_, Backbone, moment) {
                 'created_at',
                 'updated_at'
             ],
+            idAttribute: 'id',
+
             processDate: function (dateField) {
                 if (this.get(dateField)) {
                     var momentDate = moment(this.get(dateField));
