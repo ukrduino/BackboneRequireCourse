@@ -47,7 +47,9 @@ define([
         app_router.on('route:showProfilePage', function () {
             if (this.userIsLoggedIn()) {
                 var profilePageView = new ProfilePageView();
-                profilePageView.render();
+                var userDataJson = LoggedInUser.toJSON();
+                userDataJson['loggedInUser'] = true;
+                profilePageView.render(userDataJson);
             }
         });
         app_router.on('route:showEditProfileForm', function () {
@@ -86,6 +88,13 @@ define([
                 });
             }
         });
+        app_router.listenTo(eventDispatcher, 'router:showUserProfilePage', function (userDataJson) {
+            if (this.userIsLoggedIn()) {
+                var profilePageView = new ProfilePageView();
+                profilePageView.render(userDataJson);
+            }
+        });
+
         if (typeof(Storage) !== "undefined") {
             var loggedInUserData = sessionStorage.getItem("loggedInUser");
             if (!_.isUndefined(loggedInUserData)) {

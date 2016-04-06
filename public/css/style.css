@@ -46,10 +46,8 @@
     margin-bottom: 20px;
 }
 
-#saveProfile, #cancelEditProfile{
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: 10px;
+.buttonsInProfilePage{
+    margin: 20px;
 }
 
 .profileImage{

@@ -82,6 +82,15 @@
             <%= created_at %>
         </dd>
     </dl>
-    <a href="#profile/edit" class="btn btn-warning btn-lg pull-right">Edit Profile</a>
+    <% if (loggedInUser) {%>
+    <a href="#profile/edit" class="btn btn-warning btn-lg pull-right buttonsInProfilePage">Edit Profile</a>
+    <% } else { %>
+    <a href="#friends" class="btn btn-warning btn-lg pull-right buttonsInProfilePage">Back to friends</a>
+    <% if (isFriend) {%>
+    <a href="#friends" id="removeFriend" data-id="<%= id %>" class="btn btn-danger btn-lg pull-right buttonsInProfilePage">Delete from friends</a>
+    <% } else { %>
+    <a href="#friends" id="addFriend" data-id="<%= id %>" class="btn btn-success btn-lg pull-right buttonsInProfilePage">Add to friends</a>
+    <% }%>
+    <% } %>
 
 </div>

@@ -28,6 +28,9 @@ define(['underscore',
             this.listenTo(eventDispatcher, 'searchUsersPanelView:fetchUsersCollection', function () {
                 this.fetchUsersCollection();
             });
+            this.listenTo(eventDispatcher, 'searchUsersPanelView:makeAddFriendRequest', function (user_id) {
+                this.makeAddFriendRequest(user_id);
+            });
             this.render();
             this.fetchUsersCollection();
         },
@@ -67,23 +70,26 @@ define(['underscore',
             $('#users').append(userCardView.render().el);
         },
         addFriend: function (event) {
+            var user_id = $(event.currentTarget).data('id');
+            this.makeAddFriendRequest(user_id)
+        },
+        makeAddFriendRequest: function (user_id) {
             var that = this;
             var data = {api_key: settings.get('apiKey')};
-            data['user_id'] = $(event.currentTarget).data('id');
-            console.log(data['user_id']);
-            $.ajax({
-                url: settings.get('addFriend'),
-                data: data,
-                type: 'POST',
-                success: function () {
-                    eventDispatcher.trigger('myFriendsPanelView:fetchCollection');
-                    that.showUsers();
-                    console.log('add_friend success');
-                },
-                error: function () {
-                    console.log('add_friend error');
-                }
-            });
+            data['user_id'] = user_id;
+                $.ajax({
+                    url: settings.get('addFriend'),
+                    data: data,
+                    type: 'POST',
+                    success: function () {
+                        eventDispatcher.trigger('myFriendsPanelView:fetchCollection');
+                        that.showUsers();
+                        console.log('add_friend success');
+                    },
+                    error: function () {
+                        console.log('add_friend error');
+                    }
+                });
         },
         fetchUsersCollection: function () {
             var that = this;
@@ -98,6 +104,13 @@ define(['underscore',
                     console.log('error');
                 }
             });
+        },
+        viewProfile: function (event) {
+            var user_id = $(event.currentTarget).data('id');
+            Backbone.history.navigate('#profile/' + user_id, {trigger: true});
+            var userDataJson = this.usersCollection.get(user_id).toJSON();
+            userDataJson['loggedInUser'] = false;
+            eventDispatcher.trigger('router:showUserProfilePage', userDataJson);
         }
     });
 });

@@ -27,6 +27,9 @@ define(['underscore',
             this.listenTo(eventDispatcher, 'myFriendsPanelView:fetchCollection', function () {
                 this.fetchCollection();
             });
+            this.listenTo(eventDispatcher, 'myFiendsPanelView:makeRemoveFriendRequest', function (user_id) {
+                this.makeRemoveFriendRequest(user_id);
+            });
         },
         render: function () {
             this.$el.html(this.template);
@@ -64,9 +67,12 @@ define(['underscore',
             $('#friends').append(userCardView.render().el);
         },
         removeFriend: function (event) {
-            var data = {api_key: settings.get('apiKey')};
             var user_id = $(event.currentTarget).data('id');
             console.log('removeFriend :', user_id);
+            this.makeRemoveFriendRequest(user_id)
+        },
+        makeRemoveFriendRequest: function (user_id) {
+            var data = {api_key: settings.get('apiKey')};
             $.ajax({
                 url: settings.get('removeFriend') + user_id,
                 data: data,
@@ -80,6 +86,13 @@ define(['underscore',
                     console.log('removeFriend error');
                 }
             });
+        },
+        viewProfile: function (event) {
+            var user_id = $(event.currentTarget).data('id');
+            Backbone.history.navigate('#profile/' + user_id, {trigger: true});
+            var userDataJson = this.collection.get(user_id).toJSON();
+            userDataJson['loggedInUser'] = false;
+            eventDispatcher.trigger('router:showUserProfilePage', userDataJson);
         }
     });
 });
