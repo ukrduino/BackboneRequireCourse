@@ -33,7 +33,7 @@ define(['underscore', 'backbone', 'moment'], function (_, Backbone, moment) {
                 }
             },
             initialize: function () {
-                this.on('change', function () {
+                this.once('change', function () {
                     _.each(this.dateFields, function (dateField) {
                         this.processDate(dateField)
                     }, this);
