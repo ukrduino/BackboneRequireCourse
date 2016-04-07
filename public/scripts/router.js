@@ -49,7 +49,7 @@ define([
                 var profilePageView = new ProfilePageView();
                 var userDataJson = LoggedInUser.toJSON();
                 userDataJson['loggedInUser'] = true;
-                profilePageView.render(userDataJson);
+                profilePageView.preRender(userDataJson);
             }
         });
         app_router.on('route:showEditProfileForm', function () {
@@ -91,7 +91,7 @@ define([
         app_router.listenTo(eventDispatcher, 'router:showUserProfilePage', function (userDataJson) {
             if (this.userIsLoggedIn()) {
                 var profilePageView = new ProfilePageView();
-                profilePageView.render(userDataJson);
+                profilePageView.preRender(userDataJson);
             }
         });
 

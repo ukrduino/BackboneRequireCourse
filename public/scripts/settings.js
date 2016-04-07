@@ -8,9 +8,9 @@ define(['backbone'], function (Backbone) {
             signUpUrl:"api/sign_up",
             usersUrl:"api/users/",
             wallPosts:"api/wall_posts/",
-            friends:"api/friends/",
-            searchFriends:"api/friends/search",
-            searchUsers:"api/users/",
+            getFriends:"api/friends/",
+            searchWallPosts:"api/wall_posts/search",
+            getUsers:"api/users/",
             addFriend:"api/add_friend",
             removeFriend:"api/remove_friend/"
         }
