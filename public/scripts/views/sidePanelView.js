@@ -19,6 +19,8 @@ define(['underscore',
         render: function () {
             this.$el.empty();
             this.$el.html(this.template(LoggedInUser.toJSON()));
+            // enable Bootstrap tooltips after rendering
+            $('[data-toggle="tooltip"]').tooltip();
             return this;
         }
     });
