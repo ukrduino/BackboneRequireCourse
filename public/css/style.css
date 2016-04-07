@@ -54,8 +54,8 @@
     width: 200px;
 }
 
-#profileImageSmall{
-    width: 200px;
+.profileImageBig{
+    width: 350px;
 }
 /*User Card*/
 .userData{

@@ -1,0 +1,26 @@
+<div class="well">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12">
+            <% if (image_url) { %>
+            <img class="profileImage" src="<%= image_url %>" alt="<%= first_name %>">
+            <% } else { %>
+            <img class="profileImage" src="./../images/noImages.jpg" alt="user has no image>">
+            <% } %>
+            <div>
+                <p></p>
+                <p class="userData"><%= first_name %> <%= last_name %> </p>
+
+            </div>
+            <div>
+                <button class="btn btn-sm btn-danger removeFriend" data-id="<%= id %>" data-toggle="tooltip"
+                        data-placement="top" title="Remove this friend">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </button>
+                <button class="btn btn-sm btn-info viewProfile" data-id="<%= id %>" data-toggle="tooltip"
+                        data-placement="top" title="View profile">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

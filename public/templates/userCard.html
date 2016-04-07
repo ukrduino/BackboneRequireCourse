@@ -1,9 +1,11 @@
-<div class="friend-card well-lg">
-    <div class="row">
+    <div class="well">
+<div class="row">
         <div class="col-lg-4 col-sm-4">
-            <div class="friend-logo">
-                <img class="profileImage" src="<%= image_url %>" alt="<%= first_name %>">
-            </div>
+            <% if (image_url) { %>
+            <img class="profileImage" src="<%= image_url %>" alt="<%= first_name %>">
+            <% } else { %>
+            <img class="profileImage" src="./../images/noImages.jpg" alt="user has no image>">
+            <% } %>
         </div>
         <div class="col-lg-8 col-sm-8">
             <div class="friend-data">
@@ -13,14 +15,7 @@
                 <p><span class="userData">Joined: </span><%= created_at %></p>
             </div>
             <div class="friend-controls">
-                <% if (isFriend) { %>
-                <% if (showDeleteButton) { %>
-                <button class="btn btn-sm btn-danger removeFriend" data-id="<%= id %>" data-toggle="tooltip"
-                        data-placement="top" title="Remove this friend">
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                </button>
-                <% } %>
-                <% } else { %>
+                <% if (!isFriend) { %>
                 <button class="btn btn-sm btn-success addFriend" data-id="<%= id %>" data-toggle="tooltip"
                         data-placement="top" title="Add to friends">
                     <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
