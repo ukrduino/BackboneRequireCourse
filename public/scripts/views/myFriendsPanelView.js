@@ -14,12 +14,18 @@ define(['underscore',
     'bootstrap'], function (_, $, Backbone, settings, eventDispatcher, LoggedInUser, FriendsCollection, UserCardView, myFriendsPanelTemplate) {
 
     return Backbone.View.extend({
-        el: '#friendsPanel',
+        id: 'friendsPanel',
         template: _.template(myFriendsPanelTemplate),
         collection: new FriendsCollection(),
         events: {
             "click .removeFriend": 'removeFriend',
             "click .viewProfile": 'viewProfile'
+        },
+        onClose: function () {
+            // unbind all events from models, collections here!!!
+            //https://lostechies.com/derickbailey/2011/09/15/zombies-run-managing-page-transitions-in-backbone-apps/
+            console.log('friendsPanel view onClose');
+            this.stopListening();
         },
         initialize: function () {
             this.render();
@@ -32,8 +38,8 @@ define(['underscore',
             });
         },
         render: function () {
-            this.$el.html(this.template);
-            return this;
+            console.log("Users Search panel render");
+            $('#contentBlock').append(this.$el.html(this.template));
         },
         fetchCollection: function () {
             var that = this;
