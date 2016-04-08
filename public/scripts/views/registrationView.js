@@ -11,19 +11,25 @@ define(['underscore',
     'bootstrap'], function (_, $, Backbone, settings, loggedInUser, registrationFormTemplate) {
 
     return Backbone.View.extend({
-        el: $('#contentBlock'),
+        id: 'registrationForm',
         events: {
             'click #registerButton': 'register'
         },
+        registrationTemplate: _.template(registrationFormTemplate),
 
         initialize: function () {
             console.log("RegisterView initialize");
         },
 
+        onClose: function () {
+            // unbind all events from models, collections here!!!
+            //https://lostechies.com/derickbailey/2011/09/15/zombies-run-managing-page-transitions-in-backbone-apps/
+            console.log('RegisterView view onClose');
+        },
+
         render: function () {
             console.log("registrationView render");
-            this.$el.html(_.template(registrationFormTemplate));
-            return this;
+            $('#contentBlock').append(this.$el.html(this.registrationTemplate));
         },
 
         register: function () {
