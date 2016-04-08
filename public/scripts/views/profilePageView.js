@@ -12,7 +12,7 @@ define(['underscore',
     'bootstrap'], function (_, $, Backbone, settings, eventDispatcher, LoggedInUser, profilePageTemplate) {
 
     return Backbone.View.extend({
-        el: $('#contentBlock'),
+        id: 'profilePage',
         template: _.template(profilePageTemplate),
         events: {
             "click #removeFriend": 'removeFriend',
@@ -22,14 +22,19 @@ define(['underscore',
         initialize: function () {
 
         },
+        onClose: function () {
+            // unbind all events from models, collections here!!!
+            //https://lostechies.com/derickbailey/2011/09/15/zombies-run-managing-page-transitions-in-backbone-apps/
+            console.log('profilePage view onClose');
+        },
         preRender: function (userDataJson) {
             this.userDataJson = userDataJson;
             this.getNumberOfMessagesOnUsersWall(userDataJson.id);
         },
 
         render: function () {
-            this.$el.html(this.template(this.userDataJson));
-            return this;
+            console.log("profilePage panel render");
+            $('#contentBlock').append(this.$el.html(this.template(this.userDataJson)));
         },
         removeFriend: function (event) {
             var user_id = $(event.currentTarget).data('id');
