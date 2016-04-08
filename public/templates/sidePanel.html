@@ -1,16 +1,20 @@
-<div class="panel panel-default">
-    <div class="panel-heading mainPagePanelsTitle"><h3>Its me <a href="#profile"><span class="glyphicon glyphicon-user" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="View my profile"></span></a></h3>
-    </div>
-    <div class="panel-body">
-        <% if (image_url) { %>
-        <img class="profileImage" src="<%= image_url %>" alt="<%= first_name %>">
-        <% } else { %>
-        <img class="profileImage" src="./../images/noImages.jpg" alt="user has no image>">
-        <% } %>
-        <h4><%= first_name %></h4>
-        <h4><%= last_name %></h4>
-        <h4><%= email %></h4>
-        <h4>About me</h4>
-        <div><%= description %></div>
+<div class="col-lg-3 col-md-3">
+    <div class="panel panel-default">
+        <div class="panel-heading mainPagePanelsTitle"><h3>Its me <a href="#profile"><span
+                class="glyphicon glyphicon-user" aria-hidden="true" data-toggle="tooltip" data-placement="top"
+                title="View my profile"></span></a></h3>
+        </div>
+        <div class="panel-body">
+            <% if (image_url) { %>
+            <img class="profileImage" src="<%= image_url %>" alt="<%= first_name %>">
+            <% } else { %>
+            <img class="profileImage" src="./../images/noImages.jpg" alt="user has no image>">
+            <% } %>
+            <h4><%= first_name %></h4>
+            <h4><%= last_name %></h4>
+            <h4><%= email %></h4>
+            <h4>About me</h4>
+            <div><%= description %></div>
+        </div>
     </div>
 </div>
