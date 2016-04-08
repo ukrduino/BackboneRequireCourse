@@ -35,7 +35,6 @@ define(['underscore',
         },
 
         login: function () {
-            console.log("LoginView login Settings.apiKey: " + settings.get("apiKey"));
             var email = $('#email').val();
             var password = $('#password').val();
             var data = {api_key: settings.get("apiKey"), email: email, password: password};
