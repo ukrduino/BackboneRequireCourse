@@ -5,22 +5,20 @@
 define(['underscore',
     'jquery',
     'backbone',
-    'eventDispatcher',
     'text!../../templates/invitationPanel.html',
-    'bootstrap'], function (_, $, Backbone, eventDispatcher, invitationPanelTemplate) {
+    'bootstrap'], function (_, $, Backbone, invitationPanelTemplate) {
 
-    var InvitationView = Backbone.View.extend({
-        el: $('#contentBlock'),
+    return Backbone.View.extend({
+        id: 'invitationBlock',
         template: _.template(invitationPanelTemplate),
-
-        initialize: function () {
-            this.listenTo(eventDispatcher, 'InvitationView:render', this.render)
+        onClose: function () {
+            // unbind all events from models, collections here!!!
+            //https://lostechies.com/derickbailey/2011/09/15/zombies-run-managing-page-transitions-in-backbone-apps/
+            console.log('invitation view onClose');
         },
         render: function () {
-            this.$el.html(this.template());
-            return this;
+            $('#contentBlock').append(this.$el.html(this.template));
         }
     });
-    return new InvitationView();
 });
 
