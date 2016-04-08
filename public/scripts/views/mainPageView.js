@@ -2,11 +2,11 @@
  *    Main Page View
  */
 
-define(['underscore',
+define([
     'jquery',
     'backbone',
     'sidePanelView',
-    'messagesPanelView'], function (_, $, Backbone, SidePanelView, MessagesPanelView) {
+    'messagesPanelView'], function ($, Backbone, SidePanelView, MessagesPanelView) {
 
     return Backbone.View.extend({
 
