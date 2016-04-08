@@ -55,8 +55,20 @@ requirejs.config({
 
 require([
     // Load our app module and pass it to our definition function
-    'app'
-], function(App){
+    'backbone','app'
+], function(Backbone, App){
     // The "app" dependency is passed in as "App"
     App.initialize();
+    //Custom close() method to clear(correct) view closing
+    Backbone.View.prototype.close = function(){
+        //removes DOM element when view is closed
+        this.remove();
+        //unbinds all view events (e.g. "click #someButton": "doThat",)
+        this.unbind();
+        console.log('Close from Backbone.View.prototype');
+        //fires onClose() of view to unbind models collections events in closing view. DO IT IN VIEW!!!
+        if (this.onClose){
+            this.onClose();
+        }
+    }
 });
