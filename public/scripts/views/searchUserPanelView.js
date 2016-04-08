@@ -7,12 +7,13 @@ define(['underscore',
     'backbone',
     'settings',
     'eventDispatcher',
+    'userModel',
     'loggedInUser',
     'usersCollection',
     'friendsCollection',
     'userCardView',
     'text!../../templates/searchUsersPanel.html',
-    'bootstrap'], function (_, $, Backbone, settings, eventDispatcher, LoggedInUser, UsersCollection, FriendsCollection, UserCardView, searchUsersPanelTemplate) {
+    'bootstrap'], function (_, $, Backbone, settings, eventDispatcher, UserModel, LoggedInUser, UsersCollection, FriendsCollection, UserCardView, searchUsersPanelTemplate) {
 
     return Backbone.View.extend({
         id: 'userSearchPanel',
@@ -32,11 +33,8 @@ define(['underscore',
         },
 
         initialize: function () {
-            this.listenTo(eventDispatcher, 'searchUsersPanelView:fetchUsersCollection', function () {
+            this.listenTo(eventDispatcher, 'userModel:successAddToFriends userModel:successRemoveFromFriend', function () {
                 this.fetchUsersCollection();
-            });
-            this.listenTo(eventDispatcher, 'searchUsersPanelView:makeAddFriendRequest', function (user_id) {
-                this.makeAddFriendRequest(user_id);
             });
             this.render();
             this.fetchUsersCollection();
@@ -79,26 +77,10 @@ define(['underscore',
         },
         addFriend: function (event) {
             var user_id = $(event.currentTarget).data('id');
-            this.makeAddFriendRequest(user_id)
+            var user = new UserModel();
+            user.addToFriends(user_id);
         },
-        makeAddFriendRequest: function (user_id) {
-            var that = this;
-            var data = {api_key: settings.get('apiKey')};
-            data['user_id'] = user_id;
-                $.ajax({
-                    url: settings.get('addFriend'),
-                    data: data,
-                    type: 'POST',
-                    success: function () {
-                        eventDispatcher.trigger('myFriendsPanelView:fetchCollection');
-                        that.showUsers();
-                        console.log('add_friend success');
-                    },
-                    error: function () {
-                        console.log('add_friend error');
-                    }
-                });
-        },
+
         fetchUsersCollection: function () {
             var that = this;
             this.usersCollection.fetch({

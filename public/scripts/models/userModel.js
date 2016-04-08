@@ -1,4 +1,4 @@
-define(['underscore', 'backbone', 'moment'], function (_, Backbone, moment) {
+define(['underscore', 'backbone', 'settings','moment', 'eventDispatcher'], function (_, Backbone, settings, moment, eventDispatcher) {
 
     return Backbone.Model.extend({
             defaults: {
@@ -37,6 +37,39 @@ define(['underscore', 'backbone', 'moment'], function (_, Backbone, moment) {
                     _.each(this.dateFields, function (dateField) {
                         this.processDate(dateField)
                     }, this);
+                });
+            },
+            removeFromFriend: function (user_id) {
+                var data = {api_key: settings.get('apiKey')};
+                var id = (typeof user_id === 'undefined') ? this.id : user_id;
+                $.ajax({
+                    url: settings.get('removeFriend') + id,
+                    data: data,
+                    type: 'DELETE',
+                    success: function () {
+                        console.log('removeFriend success');
+                        eventDispatcher.trigger('userModel:successRemoveFromFriend');
+                    },
+                    error: function () {
+                        console.log('removeFriend error');
+                    }
+                });
+            },
+            addToFriends: function (user_id) {
+                var data = {api_key: settings.get('apiKey')};
+                data['user_id'] = this.id;
+                data['user_id'] = (typeof user_id === 'undefined') ? this.id : user_id;
+                $.ajax({
+                    url: settings.get('addFriend'),
+                    data: data,
+                    type: 'POST',
+                    success: function () {
+                        eventDispatcher.trigger('userModel:successAddToFriends');
+                        Backbone.history.navigate('friends', {trigger: true});
+                    },
+                    error: function () {
+                        console.log('add_friend error');
+                    }
                 });
             }
         }

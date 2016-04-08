@@ -7,9 +7,10 @@ define(['underscore',
     'backbone',
     'settings',
     'eventDispatcher',
+    'userModel',
     'loggedInUser',
     'text!../../templates/profilePage.html',
-    'bootstrap'], function (_, $, Backbone, settings, eventDispatcher, LoggedInUser, profilePageTemplate) {
+    'bootstrap'], function (_, $, Backbone, settings, eventDispatcher, UserModel, LoggedInUser, profilePageTemplate) {
 
     return Backbone.View.extend({
         id: 'profilePage',
@@ -26,6 +27,7 @@ define(['underscore',
             // unbind all events from models, collections here!!!
             //https://lostechies.com/derickbailey/2011/09/15/zombies-run-managing-page-transitions-in-backbone-apps/
             console.log('profilePage view onClose');
+
         },
         preRender: function (userDataJson) {
             this.userDataJson = userDataJson;
@@ -36,13 +38,13 @@ define(['underscore',
             console.log("profilePage panel render");
             $('#contentBlock').append(this.$el.html(this.template(this.userDataJson)));
         },
-        removeFriend: function (event) {
-            var user_id = $(event.currentTarget).data('id');
-            eventDispatcher.trigger('myFiendsPanelView:makeRemoveFriendRequest', user_id);
+        removeFriend: function () {
+            var user = new UserModel(this.userDataJson);
+            user.removeFromFriend();
         },
-        addFriend: function (event) {
-            var user_id = $(event.currentTarget).data('id');
-            eventDispatcher.trigger('searchUsersPanelView:makeAddFriendRequest', user_id);
+        addFriend: function () {
+            var user = new UserModel(this.userDataJson);
+            user.addToFriends();
         },
         getNumberOfMessagesOnUsersWall: function (id) {
             var that = this;

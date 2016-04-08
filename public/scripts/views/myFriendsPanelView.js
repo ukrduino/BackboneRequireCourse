@@ -7,11 +7,12 @@ define(['underscore',
     'backbone',
     'settings',
     'eventDispatcher',
+    'userModel',
     'loggedInUser',
     'friendsCollection',
     'userCardView',
     'text!../../templates/myFriendsPanel.html',
-    'bootstrap'], function (_, $, Backbone, settings, eventDispatcher, LoggedInUser, FriendsCollection, UserCardView, myFriendsPanelTemplate) {
+    'bootstrap'], function (_, $, Backbone, settings, eventDispatcher, UserModel, LoggedInUser, FriendsCollection, UserCardView, myFriendsPanelTemplate) {
 
     return Backbone.View.extend({
         id: 'friendsPanel',
@@ -30,17 +31,15 @@ define(['underscore',
         initialize: function () {
             this.render();
             this.fetchCollection();
-            this.listenTo(eventDispatcher, 'myFriendsPanelView:fetchCollection', function () {
+            this.listenTo(eventDispatcher, 'userModel:successAddToFriends userModel:successRemoveFromFriend', function () {
                 this.fetchCollection();
-            });
-            this.listenTo(eventDispatcher, 'myFiendsPanelView:makeRemoveFriendRequest', function (user_id) {
-                this.makeRemoveFriendRequest(user_id);
             });
         },
         render: function () {
             console.log("Users Search panel render");
             $('#contentBlock').append(this.$el.html(this.template));
         },
+
         fetchCollection: function () {
             var that = this;
             console.log("Friends panel collection fetch");
@@ -68,31 +67,19 @@ define(['underscore',
             // enable Bootstrap tooltips after rendering
             $('[data-toggle="tooltip"]').tooltip();
         },
+
         addUserCardToFriendsPanel: function (userModel) {
             var userCardView = new UserCardView({model: userModel});
             $('#friends').append(userCardView.render().el);
         },
+
         removeFriend: function (event) {
             var user_id = $(event.currentTarget).data('id');
             console.log('removeFriend :', user_id);
-            this.makeRemoveFriendRequest(user_id)
+            var user = new UserModel();
+            user.removeFromFriend(user_id);
         },
-        makeRemoveFriendRequest: function (user_id) {
-            var data = {api_key: settings.get('apiKey')};
-            $.ajax({
-                url: settings.get('removeFriend') + user_id,
-                data: data,
-                type: 'DELETE',
-                success: function () {
-                    console.log('removeFriend success');
-                    eventDispatcher.trigger('searchUsersPanelView:fetchUsersCollection');
-                    eventDispatcher.trigger('myFriendsPanelView:fetchCollection');
-                },
-                error: function () {
-                    console.log('removeFriend error');
-                }
-            });
-        },
+
         viewProfile: function (event) {
             var user_id = $(event.currentTarget).data('id');
             Backbone.history.navigate('#profile/' + user_id, {trigger: true});
