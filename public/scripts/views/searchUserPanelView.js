@@ -15,13 +15,20 @@ define(['underscore',
     'bootstrap'], function (_, $, Backbone, settings, eventDispatcher, LoggedInUser, UsersCollection, FriendsCollection, UserCardView, searchUsersPanelTemplate) {
 
     return Backbone.View.extend({
-        el: '#userSearchPanel',
+        id: 'userSearchPanel',
         template: _.template(searchUsersPanelTemplate),
         usersCollection: new UsersCollection(),
         friendsCollection: new FriendsCollection(),
         events: {
             "click .addFriend": 'addFriend',
             "click .viewProfile": 'viewProfile'
+        },
+
+        onClose: function () {
+            // unbind all events from models, collections here!!!
+            //https://lostechies.com/derickbailey/2011/09/15/zombies-run-managing-page-transitions-in-backbone-apps/
+            console.log('sidePanel view onClose');
+            this.stopListening();
         },
 
         initialize: function () {
@@ -34,11 +41,12 @@ define(['underscore',
             this.render();
             this.fetchUsersCollection();
         },
+
         render: function () {
             console.log("Users Search panel render");
-            this.$el.html(this.template);
-            return this;
+            $('#contentBlock').append(this.$el.html(this.template));
         },
+
         showUsers: function () {
             var that = this;
             this.friendsCollection.fetch({
