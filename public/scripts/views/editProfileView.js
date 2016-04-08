@@ -12,7 +12,7 @@ define(['underscore',
     'bootstrap'], function (_, $, Backbone, settings, datepicker, LoggedInUser, editProfileFormTemplate) {
 
     return Backbone.View.extend({
-        el: $('#contentBlock'),
+        id: 'editProfile',
         template: _.template(editProfileFormTemplate),
         events: {
             'click #saveProfile': 'updateProfile'
@@ -20,12 +20,15 @@ define(['underscore',
         initialize: function () {
 
         },
-
+        onClose: function () {
+            // unbind all events from models, collections here!!!
+            //https://lostechies.com/derickbailey/2011/09/15/zombies-run-managing-page-transitions-in-backbone-apps/
+            console.log('editProfile view onClose');
+        },
         render: function () {
-            console.log("editProfileView render");
-            this.$el.html(this.template(LoggedInUser.toJSON()));
+            console.log("editProfile page render");
+            $('#contentBlock').append(this.$el.html(this.template(LoggedInUser.toJSON())));
             $('#birthday').datepicker();
-            return this;
         },
 
         updateProfile: function () {
