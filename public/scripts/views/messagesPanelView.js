@@ -13,24 +13,40 @@ define(['underscore',
     'bootstrap'], function (_, $, Backbone, settings, MessageModel, MessagesCollection, MessageView, messagesPanelTemplate) {
 
     return Backbone.View.extend({
-        el: '#messagesPanel',
+        id: 'messagesPanel',
         events: {
             'click #postMessage': 'postMessage'
         },
-        collection: new MessagesCollection(),
+        wallPostsCollection: new MessagesCollection(),
+
+        onClose: function () {
+            // unbind all events from models, collections here!!!
+            //https://lostechies.com/derickbailey/2011/09/15/zombies-run-managing-page-transitions-in-backbone-apps/
+            console.log('messagesPanel view onClose');
+            clearInterval(this.timer);
+            this.stopListening();
+        },
+
+
         initialize: function () {
             var that = this;
+            this.listenTo(this.wallPostsCollection, 'reset', function () {
+                this.updateMessageWall()
+            });
+            this.timer = setInterval(function() {
+                that.fetchWallPostsCollection();
+            }, 5000);
+            this.render();
             console.log("Message panel initialize fetch");
-            this.collection.fetch({
-                data: {api_key: settings.get('apiKey')},
+            this.fetchWallPostsCollection();
+        },
+
+        fetchWallPostsCollection: function () {
+            this.wallPostsCollection.fetch({
+                data: {api_key: 'd4cd9757001b363cca9dc7e1ea06439f47bb02ac'},
                 reset: true,
                 success: function (collection, response, options) {
-                    that.render();
-                    console.log('success');
-                    collection.each(function (model) {
-                            that.addMessageToWall(model)
-                        }
-                    );
+                    console.log('fetchWallPostsCollection success');
                 },
                 error: function (collection, response, options) {
                     console.log('error');
@@ -38,11 +54,19 @@ define(['underscore',
             });
         },
         render: function () {
-            this.$el.html(_.template(messagesPanelTemplate));
-            return this;
+            console.log("Message panel render");
+            $('#contentBlock').append(this.$el.html(_.template(messagesPanelTemplate)));
+        },
+        updateMessageWall: function () {
+            $('#messages').empty();
+            var that = this;
+            var messages = _.last(this.wallPostsCollection.toArray(), [settings.get('numberOfMessagesOnWall')]);
+            messages.forEach(function (model) {
+                that.addMessageToWall(model)
+                }
+            );
         },
         postMessage: function () {
-            var that = this; // saving context to that variable
             var subjectField = $('#subject');
             var descriptionField = $('#description');
             var receiverField = $('#receiver');
@@ -69,7 +93,7 @@ define(['underscore',
             var newMessage = new MessageModel(data);
             newMessage.save({}, {
                 success: function (model, response) {
-                    that.addMessageToWall(model);
+                    console.log('success', response);
                 },
                 error: function (model, response) {
                     console.log('error', response);
