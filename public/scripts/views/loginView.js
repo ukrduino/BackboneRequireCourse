@@ -11,18 +11,26 @@ define(['underscore',
     'bootstrap'], function (_, $, Backbone, settings, loggedInUser, loginFormTemplate) {
 
     return Backbone.View.extend({
-        el: $('#contentBlock'),
+
+        id: 'loginForm',
         events: {
             'click #loginButton': 'login'
         },
+        loginTemplate: _.template(loginFormTemplate),
+
+        onClose: function () {
+            // unbind all events from models, collections here!!!
+            //https://lostechies.com/derickbailey/2011/09/15/zombies-run-managing-page-transitions-in-backbone-apps/
+            console.log('Login view onClose');
+        },
 
         initialize: function () {
-            console.log("LoginView initialize");
+
         },
 
         render: function () {
-            console.log("LoginView render");
-            this.$el.html(_.template(loginFormTemplate));
+            console.log("LoginView render and append to contentBlock");
+            $('#contentBlock').append(this.$el.html(this.loginTemplate));
             return this;
         },
 
@@ -34,12 +42,12 @@ define(['underscore',
             if (this.validateEmail(email)) {
                 $.post(settings.get("loginUrl"), data, function (responseJson) {
                     loggedInUser.setUserData(responseJson);
-                    Backbone.history.navigate('',{trigger: true});
-                }).fail(function(res){
+                    Backbone.history.navigate('', {trigger: true});
+                }).fail(function (res) {
                     var response = JSON.parse(res.responseText);
                     $('.error').html(response.error);
                 });
-            }else {
+            } else {
                 $('.error').html('Please enter valid e-mail');
             }
         },
