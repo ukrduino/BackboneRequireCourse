@@ -1,4 +1,14 @@
-define(['underscore', 'backbone', 'settings','moment', 'eventDispatcher'], function (_, Backbone, settings, moment, eventDispatcher) {
+define(['underscore',
+    'jquery',
+    'backbone',
+    'settings',
+    'moment',
+    'eventDispatcher'], function (_,
+                                  $,
+                                  Backbone,
+                                  settings,
+                                  moment,
+                                  eventDispatcher) {
 
     return Backbone.Model.extend({
             defaults: {
@@ -18,7 +28,10 @@ define(['underscore', 'backbone', 'settings','moment', 'eventDispatcher'], funct
                 'encrypted_password': null,
                 'id': null,
                 'person_id': null,
-                'updated_at': null
+                'updated_at': null,
+                'messages': 0,
+                'loggedInUser': false,
+                'isFriend': false
             },
             dateFields: [
                 'birthday',
@@ -39,36 +52,47 @@ define(['underscore', 'backbone', 'settings','moment', 'eventDispatcher'], funct
                     }, this);
                 });
             },
-            removeFromFriend: function (user_id) {
-                var data = {api_key: settings.get('apiKey')};
-                var id = (typeof user_id === 'undefined') ? this.id : user_id;
+            getNumberOfMessages: function () {
+                console.log('getNumberOfMessages');
+                var that = this;
+                var data = {
+                    api_key: settings.get('apiKey'),
+                    receiver_id: this.id
+                };
                 $.ajax({
-                    url: settings.get('removeFriend') + id,
+                    url: settings.get('searchWallPosts'),
+                    type: 'GET',
                     data: data,
-                    type: 'DELETE',
-                    success: function () {
-                        console.log('removeFriend success');
-                        eventDispatcher.trigger('userModel:successRemoveFromFriend');
+                    success: function (result) {
+                        var messagesNumber = Object.keys(result).length;
+                        if (messagesNumber > 0) {
+                            that.set('messages', messagesNumber)
+                        }
+                        eventDispatcher.trigger("UserModel:successGetNumberOfMessages")
                     },
-                    error: function () {
-                        console.log('removeFriend error');
+                    error: function (result) {
+                        console.log("error: ", result.responseText);
                     }
                 });
-            },
-            addToFriends: function (user_id) {
-                var data = {api_key: settings.get('apiKey')};
-                data['user_id'] = this.id;
-                data['user_id'] = (typeof user_id === 'undefined') ? this.id : user_id;
+            }
+            ,
+            getUserById: function (user_id) {
+                console.log('getUserById');
+                var that = this;
+                var data = {
+                    api_key: settings.get('apiKey')
+                };
                 $.ajax({
-                    url: settings.get('addFriend'),
+                    url: settings.get('usersUrl') + user_id,
+                    type: 'GET',
                     data: data,
-                    type: 'POST',
-                    success: function () {
-                        eventDispatcher.trigger('userModel:successAddToFriends');
-                        Backbone.history.navigate('friends', {trigger: true});
+                    success: function (responseUserData) {
+                        that.set(responseUserData);
+                        console.log(that);
+                        eventDispatcher.trigger("UserModel:successGetUserById", that)
                     },
-                    error: function () {
-                        console.log('add_friend error');
+                    error: function (result) {
+                        console.log("error: ", result.responseText);
                     }
                 });
             }
