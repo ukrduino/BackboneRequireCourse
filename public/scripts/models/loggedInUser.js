@@ -57,19 +57,23 @@ define(['underscore',
                 });
             },
             addToFriends: function (user_id) {
-                var data = {api_key: settings.get('apiKey')};
-                data['user_id'] = user_id;
-                $.ajax({
-                    url: settings.get('addFriend'),
-                    data: data,
-                    type: 'POST',
-                    success: function () {
-                        eventDispatcher.trigger('userModel:successAddToFriends');
-                    },
-                    error: function () {
-                        console.log('add_friend error');
-                    }
-                });
+                if (!this.checkUserIsFriend(user_id) && this.get('id') != user_id) {
+                    var data = {api_key: settings.get('apiKey')};
+                    data['user_id'] = user_id;
+                    $.ajax({
+                        url: settings.get('addFriend'),
+                        data: data,
+                        type: 'POST',
+                        success: function () {
+                            eventDispatcher.trigger('userModel:successAddToFriends');
+                        },
+                        error: function () {
+                            console.log('add_friend error');
+                        }
+                    });
+                }else{
+                    console.log("User with id:" + user_id + " already in friends, or its your id!");
+                }
             },
             checkUserIsFriend: function (user_id) {
                 return !_.isUndefined(this.collection.get(user_id))
