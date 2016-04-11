@@ -10,19 +10,25 @@ define(['underscore',
     'userModel',
     'loggedInUser',
     'usersCollection',
-    'friendsCollection',
     'userCardView',
     'text!../../templates/searchUsersPanel.html',
-    'bootstrap'], function (_, $, Backbone, settings, eventDispatcher, UserModel, LoggedInUser, UsersCollection, FriendsCollection, UserCardView, searchUsersPanelTemplate) {
+    'bootstrap'], function (_,
+                            $,
+                            Backbone,
+                            settings,
+                            eventDispatcher,
+                            UserModel,
+                            LoggedInUser,
+                            UsersCollection,
+                            UserCardView,
+                            searchUsersPanelTemplate) {
 
     return Backbone.View.extend({
         id: 'userSearchPanel',
         template: _.template(searchUsersPanelTemplate),
         usersCollection: new UsersCollection(),
-        friendsCollection: new FriendsCollection(),
         events: {
             "click .addFriend": 'addFriend',
-            "click .viewProfile": 'viewProfile'
         },
 
         onClose: function () {
@@ -33,8 +39,8 @@ define(['underscore',
         },
 
         initialize: function () {
-            this.listenTo(eventDispatcher, 'userModel:successAddToFriends userModel:successRemoveFromFriend', function () {
-                this.fetchUsersCollection();
+            this.listenTo(eventDispatcher, 'LoggedInUser:friendsCollectionUpdated', function () {
+                this.showUsers();
             });
             this.render();
             this.fetchUsersCollection();
@@ -47,28 +53,18 @@ define(['underscore',
 
         showUsers: function () {
             var that = this;
-            this.friendsCollection.fetch({
-                data: {api_key: settings.get('apiKey')},
-                reset: true,
-                success: function (collection, response, options) {
-                    console.log('friendsCollection fetch success');
-                    $('#users').empty();
-                    that.usersCollection.each(function (userModel) {
-                            if (!_.isUndefined(that.friendsCollection.get(userModel.get('id')))) {
-                                userModel.set('isFriend', true).set('showDeleteButton', false);
-                            } else {
-                                userModel.set('isFriend', false).set('showDeleteButton', false);
-                            }
-                            that.addUserCardToUsersSearchPanel(userModel)
-                        }
-                    );
-                    // enable Bootstrap tooltips after rendering
-                    $('[data-toggle="tooltip"]').tooltip();
-                },
-                error: function (collection, response, options) {
-                    console.log('error');
+            $('#users').empty();
+            this.usersCollection.each(function (userModel) {
+                    if (LoggedInUser.checkUserIsFriend(userModel.get('id'))) {
+                        userModel.set('isFriend', true).set('showDeleteButton', false);
+                    } else {
+                        userModel.set('isFriend', false).set('showDeleteButton', false);
+                    }
+                    that.addUserCardToUsersSearchPanel(userModel)
                 }
-            });
+            );
+            // enable Bootstrap tooltips after rendering
+            $('[data-toggle="tooltip"]').tooltip();
 
         },
         addUserCardToUsersSearchPanel: function (userModel) {
@@ -77,10 +73,9 @@ define(['underscore',
         },
         addFriend: function (event) {
             var user_id = $(event.currentTarget).data('id');
-            var user = new UserModel();
-            user.addToFriends(user_id);
+            LoggedInUser.addToFriends(user_id);
         },
-
+// TODO implement parameters search
         fetchUsersCollection: function () {
             var that = this;
             this.usersCollection.fetch({
@@ -94,13 +89,6 @@ define(['underscore',
                     console.log('error');
                 }
             });
-        },
-        viewProfile: function (event) {
-            var user_id = $(event.currentTarget).data('id');
-            Backbone.history.navigate('#profile/' + user_id, {trigger: true});
-            var userDataJson = this.usersCollection.get(user_id).toJSON();
-            userDataJson['loggedInUser'] = false;
-            eventDispatcher.trigger('router:showUserProfilePage', userDataJson);
         }
     });
 });
