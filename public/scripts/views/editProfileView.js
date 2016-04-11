@@ -63,7 +63,7 @@ define(['underscore',
                 data: data,
                 success: function (result) {
                     LoggedInUser.setUserData(result);
-                    Backbone.history.navigate('profile',{trigger: true});
+                    Backbone.history.navigate('profile/',{trigger: true});
                 },
                 error: function (answer) {
                     console.log( "error: ", answer.responseText );
