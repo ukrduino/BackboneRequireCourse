@@ -8,7 +8,7 @@ define(['underscore',
     'settings',
     'loggedInUser',
     'text!../../templates/loginForm.html',
-    'bootstrap'], function (_, $, Backbone, settings, loggedInUser, loginFormTemplate) {
+    'bootstrap'], function (_, $, Backbone, settings, LoggedInUser, loginFormTemplate) {
 
     return Backbone.View.extend({
 
@@ -40,7 +40,7 @@ define(['underscore',
             var data = {api_key: settings.get("apiKey"), email: email, password: password};
             if (this.validateEmail(email)) {
                 $.post(settings.get("loginUrl"), data, function (responseJson) {
-                    loggedInUser.setUserData(responseJson);
+                    LoggedInUser.setUserData(responseJson).set('loggedInUser', true).set('isFriend', false).getFriends();
                     Backbone.history.navigate('', {trigger: true});
                 }).fail(function (res) {
                     var response = JSON.parse(res.responseText);
