@@ -4,6 +4,7 @@ define([
     'backbone',
     'settings',
     'eventDispatcher',
+    'userModel',
     'loggedInUser',
     'invitationView',
     'headerView',
@@ -17,6 +18,7 @@ define([
                                      Backbone,
                                      Settings,
                                      eventDispatcher,
+                                     UserModel,
                                      LoggedInUser,
                                      InvitationView,
                                      HeaderView,
@@ -32,8 +34,8 @@ define([
             'login': 'showLoginForm',
             'logout': 'logOut',
             'register': 'showRegistrationForm',
-            'profile': 'showProfilePage',
-            'profile/edit': 'showEditProfileForm',
+            'profile/(:id)': 'showProfilePage',
+            'edit/profile': 'showEditProfileForm',
             'friends': 'showFriendsPage'
         },
         userIsLoggedIn: function () {
@@ -58,11 +60,15 @@ define([
         app_router.on('route:showRegistrationForm', function () {
             this.showView(new RegistrationView()).render();
         });
-        app_router.on('route:showProfilePage', function () {
+        app_router.on('route:showProfilePage', function (id) {
             if (this.userIsLoggedIn()) {
-                var userDataJson = LoggedInUser.toJSON();
-                userDataJson['loggedInUser'] = true;
-                this.showView(new ProfilePageView()).preRender(userDataJson);
+                if (id) {
+                    console.log('id:',id);
+                    var user = new UserModel();
+                    user.getUserById(id)
+                } else {
+                    this.showView(new ProfilePageView(LoggedInUser));
+                }
             }
         });
         app_router.on('route:showEditProfileForm', function () {
@@ -96,10 +102,8 @@ define([
                 });
             }
         });
-        app_router.listenTo(eventDispatcher, 'router:showUserProfilePage', function (userDataJson) {
-            if (this.userIsLoggedIn()) {
-                this.showView(new ProfilePageView()).preRender(userDataJson);
-            }
+        app_router.listenTo(eventDispatcher, 'UserModel:successGetUserById', function (user) {
+            this.showView(new ProfilePageView(user));
         });
 
         if (typeof(Storage) !== "undefined") {
