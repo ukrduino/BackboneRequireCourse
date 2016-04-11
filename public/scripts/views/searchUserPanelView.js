@@ -29,6 +29,7 @@ define(['underscore',
         usersCollection: new UsersCollection(),
         events: {
             "click .addFriend": 'addFriend',
+            "click .viewProfile": 'viewProfile'
         },
 
         onClose: function () {
@@ -89,6 +90,10 @@ define(['underscore',
                     console.log('error');
                 }
             });
+        },
+        viewProfile: function (event) {
+            var user_id = $(event.currentTarget).data('id');
+            Backbone.history.navigate('#profile/' + user_id, {trigger: true})
         }
     });
 });
