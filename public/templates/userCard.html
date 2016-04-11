@@ -1,11 +1,19 @@
 <div class="well">
     <div class="row">
-        <div class="col-lg-11 col-sm-11">
+        <div class="col-lg-4 col-sm-4">
+            <% if (image_url) { %>
+            <img class="profileImage" src="<%= image_url %>" alt="<%= first_name %>">
+            <% } else { %>
+            <img class="profileImage" src="./../images/noImages.jpg" alt="user has no image>">
+            <% } %>
+        </div>
+        <div class="col-lg-8 col-sm-8">
             <div class="friend-data">
                 <p class="userData"><%= first_name %> <%= last_name %> </p>
+                <p><span class="userData">Status: </span><%= status %></p>
+                <p><span class="userData">About user: </span><%= description %></p>
+                <p><span class="userData">Joined: </span><%= created_at %></p>
             </div>
-        </div>
-        <div class="col-lg-1 col-sm-1">
             <div class="friend-controls">
                 <% if (!isFriend) { %>
                 <button class="btn btn-sm btn-success addFriend" data-id="<%= id %>" data-toggle="tooltip"
@@ -13,8 +21,11 @@
                     <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                 </button>
                 <% } %>
+                <button class="btn btn-sm btn-info viewProfile" data-id="<%= id %>" data-toggle="tooltip"
+                        data-placement="top" title="View profile">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                </button>
             </div>
         </div>
     </div>
-</div>
 </div>
