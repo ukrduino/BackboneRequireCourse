@@ -27,7 +27,8 @@ define(['underscore',
                 });
                 this.listenTo(eventDispatcher, 'userModel:successAddToFriends', function () {
                     this.getFriends();
-                })
+                });
+                this.set('loggedInUser', true);
             },
             getFriends: function () {
                 this.collection.fetch({
