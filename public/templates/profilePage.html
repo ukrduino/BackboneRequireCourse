@@ -1,30 +1,26 @@
 <div class="col-lg-4">
     <% if (image_url) { %>
-        <img class="profileImageBig" src="<%= image_url %>" alt="<%= first_name %>">
+    <img class="profileImageBig" src="<%= image_url %>" alt="<%= first_name %>">
     <% } else { %>
-        <img class="profileImageBig" src="./../images/noImages.jpg" alt="user has no image>">
+    <img class="profileImageBig" src="./../images/noImages.jpg" alt="user has no image>">
     <% } %>
 
     <% if (messages > 0) { %>
-        <% if (loggedInUser == true) { %>
-            <h4>You have <%= messages %> wall posts...</h4>
-        <% } else { %>
-            <h4>Has <%= messages %> wall posts...</h4>
-        <% } %>
+    <% if (loggedInUser == true) { %>
+    <h4>You have <%= messages %> wall posts...</h4>
     <% } else { %>
-        <h4>No wall posts...</h4>
+    <h4>Has <%= messages %> wall posts...</h4>
+    <% } %>
+    <% } else { %>
+    <h4>No wall posts...</h4>
     <% } %>
 
 </div>
 <div class="col-lg-8">
-    <% if (isFriend != false) { %>
-        <h3> Friend's profile Data </h3>
-    <% } %>
-    <% if (loggedInUser == false && isFriend == false) { %>
-        <h3> User's profile Data </h3>
-    <% } %>
     <% if (loggedInUser == true) { %>
-        <h3> Your profile Data </h3>
+    <h3> Your profile Data </h3>
+    <% } else { %>
+    <h3> User's profile Data </h3>
     <% } %>
 
     <hr/>
@@ -112,7 +108,8 @@
     <% } else { %>
     <a href="#friends" class="btn btn-warning btn-lg pull-right buttonsInProfilePage">Back to friends</a>
     <% if (isFriend) {%>
-    <a href="#friends" id="removeFriend" data-id="<%= id %>" class="btn btn-danger btn-lg pull-right buttonsInProfilePage">Delete from friends</a>
+    <a href="#friends" id="removeFriend" data-id="<%= id %>"
+       class="btn btn-danger btn-lg pull-right buttonsInProfilePage">Delete from friends</a>
     <% }%>
     <% } %>
 
