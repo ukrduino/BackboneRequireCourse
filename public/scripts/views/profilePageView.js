@@ -22,6 +22,9 @@ define(['underscore',
 
         initialize: function (user) {
             this.user = user;
+            if (LoggedInUser.checkUserIsFriend(this.user.get('id'))) {
+                this.user.set('isFriend', true)
+            }
             this.user.getNumberOfMessages();
             this.listenTo(eventDispatcher, 'UserModel:successGetNumberOfMessages',
                 function () {
