@@ -17,10 +17,14 @@
 
 </div>
 <div class="col-lg-8">
+    <% if (isFriend == true) { %>
+    <h3> Friend's profile Data </h3>
+    <% } %>
+    <% if (loggedInUser == false && isFriend == false) { %>
+    <h3> User's profile Data </h3>
+    <% } %>
     <% if (loggedInUser == true) { %>
     <h3> Your profile Data </h3>
-    <% } else { %>
-    <h3> User's profile Data </h3>
     <% } %>
 
     <hr/>
@@ -108,8 +112,9 @@
     <% } else { %>
     <a href="#friends" class="btn btn-warning btn-lg pull-right buttonsInProfilePage">Back to friends</a>
     <% if (isFriend) {%>
-    <a href="#friends" id="removeFriend" data-id="<%= id %>"
-       class="btn btn-danger btn-lg pull-right buttonsInProfilePage">Delete from friends</a>
+    <a href="#friends" id="removeFriend" data-id="<%= id %>" class="btn btn-danger btn-lg pull-right buttonsInProfilePage">Delete from friends</a>
+    <% } else { %>
+    <a href="#friends" id="addFriend" data-id="<%= id %>" class="btn btn-success btn-lg pull-right buttonsInProfilePage">Add to friends</a>
     <% }%>
     <% } %>
 
