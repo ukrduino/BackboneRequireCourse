@@ -19,57 +19,32 @@ define(['underscore',
             "click #removeFriend": 'removeFriend',
             "click #addFriend": 'addFriend'
         },
-        userDataJson: null,
-        initialize: function () {
 
+        initialize: function (user) {
+            this.user = user;
+            this.user.getNumberOfMessages();
+            this.listenTo(eventDispatcher, 'UserModel:successGetNumberOfMessages',
+                function () {
+                    this.render();
+                });
+            this.render();
         },
+
         onClose: function () {
             // unbind all events from models, collections here!!!
             //https://lostechies.com/derickbailey/2011/09/15/zombies-run-managing-page-transitions-in-backbone-apps/
             console.log('profilePage view onClose');
-
-        },
-        preRender: function (userDataJson) {
-            this.userDataJson = userDataJson;
-            this.getNumberOfMessagesOnUsersWall(userDataJson.id);
+            this.stopListening();
         },
 
         render: function () {
             console.log("profilePage panel render");
-            $('#contentBlock').append(this.$el.html(this.template(this.userDataJson)));
+            $('#contentBlock').append(this.$el.html(this.template(this.user.toJSON())));
         },
+
         removeFriend: function () {
-            var user = new UserModel(this.userDataJson);
-            user.removeFromFriend();
-        },
-        addFriend: function () {
-            var user = new UserModel(this.userDataJson);
-            user.addToFriends();
-        },
-        getNumberOfMessagesOnUsersWall: function (id) {
-            var that = this;
-            var data = {
-                api_key: settings.get('apiKey'),
-                receiver_id: id
-            };
-            $.ajax({
-                url: settings.get('searchWallPosts'),
-                type: 'GET',
-                data: data,
-                success: function (result) {
-                    var messagesNumber = Object.keys(result).length;
-                    if (messagesNumber > 0) {
-                        that.userDataJson['messages'] = messagesNumber;
-                    }else{
-                        that.userDataJson['messages'] = 0;
-                    }
-                    console.log(that.userDataJson);
-                    that.render();
-                },
-                error: function (result) {
-                    console.log("error: ", result.responseText);
-                }
-            });
+            LoggedInUser.removeFromFriend(this.user.get('id'));
         }
     });
-});
+})
+;
