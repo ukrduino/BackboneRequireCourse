@@ -47,6 +47,9 @@ define(['underscore',
 
         removeFriend: function () {
             LoggedInUser.removeFromFriend(this.user.get('id'));
+        },
+        addFriend: function () {
+            LoggedInUser.addToFriends(this.user.get('id'));
         }
     });
 })
