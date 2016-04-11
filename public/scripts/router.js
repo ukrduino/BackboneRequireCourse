@@ -108,8 +108,12 @@ define([
 
         if (typeof(Storage) !== "undefined") {
             var loggedInUserData = sessionStorage.getItem("loggedInUser");
+            var friendsCollection = sessionStorage.getItem("friendsCollection");
             if (!_.isUndefined(loggedInUserData)) {
                 LoggedInUser.setUserData(JSON.parse(loggedInUserData));
+                if (!_.isUndefined(friendsCollection)) {
+                    LoggedInUser.collection.set(JSON.parse(friendsCollection))
+                }
             }
         } else {
             console.log('Sorry! No Web Storage support..');
