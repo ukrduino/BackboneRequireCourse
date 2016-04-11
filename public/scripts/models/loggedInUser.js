@@ -36,6 +36,11 @@ define(['underscore',
                     reset: true,
                     success: function (collection, response, options) {
                         console.log('Friends collection fetch success', collection);
+                        if (typeof(Storage) !== "undefined") {
+                            sessionStorage.setItem("friendsCollection", JSON.stringify(collection));
+                        } else {
+                            console.log('Sorry! No Web Storage support..');
+                        }
                     },
                     error: function (collection, response, options) {
                         console.log('error');
