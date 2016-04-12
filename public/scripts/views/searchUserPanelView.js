@@ -29,7 +29,8 @@ define(['underscore',
         usersCollection: new UsersCollection(),
         events: {
             "click .addFriend": 'addFriend',
-            "click .viewProfile": 'viewProfile'
+            "click .viewProfile": 'viewProfile',
+            "click #search": 'searchBy'
         },
 
         onClose: function () {
@@ -40,11 +41,25 @@ define(['underscore',
         },
 
         initialize: function () {
+            this.listenTo(this.usersCollection, 'reset', function () {
+                console.log('reset');
+                this.showUsers();
+            });
+
             this.listenTo(eventDispatcher, 'LoggedInUser:friendsCollectionUpdated', function () {
                 this.showUsers();
             });
+
+            this.listenTo(eventDispatcher, 'UserSearchPanel:successSearchBy', function (responseUserData) {
+                this.firstNameInput.val('');
+                this.lastNameInput.val('');
+                this.usersCollection.reset(responseUserData);
+            });
             this.render();
-            this.fetchUsersCollection();
+            this.firstNameInput = $('#firstNameInput');
+            this.lastNameInput = $('#lastNameInput');
+            //this.firstNameInput.keyup(['firstName'], this.searchBy);
+            //this.lastNameInput.keyup(['lastName'], this.searchBy);
         },
 
         render: function () {
@@ -76,24 +91,36 @@ define(['underscore',
             var user_id = $(event.currentTarget).data('id');
             LoggedInUser.addToFriends(user_id);
         },
-// TODO implement parameters search
-        fetchUsersCollection: function () {
-            var that = this;
-            this.usersCollection.fetch({
-                data: {api_key: settings.get('apiKey')},
-                reset: true,
-                success: function (collection, response, options) {
-                    console.log('Users collection fetch success');
-                    that.showUsers();
-                },
-                error: function (collection, response, options) {
-                    console.log('error');
-                }
-            });
-        },
+
         viewProfile: function (event) {
             var user_id = $(event.currentTarget).data('id');
             Backbone.history.navigate('#profile/' + user_id, {trigger: true})
+        },
+        searchBy: function () {
+            var data = {
+                api_key: settings.get('apiKey')
+            };
+
+            if (this.firstNameInput.val().length > 0) {
+                data['first_name'] = this.firstNameInput.val();
+            }
+            if (this.lastNameInput.val().length > 0) {
+                data['last_name'] = this.lastNameInput.val();
+            }
+            if (data['last_name'] || data['first_name']) {
+                $.ajax({
+                    url: settings.get('usersSearchUrl'),
+                    type: 'GET',
+                    data: data,
+                    success: function (responseUserData) {
+                        console.log(responseUserData.length);
+                        eventDispatcher.trigger("UserSearchPanel:successSearchBy", responseUserData)
+                    },
+                    error: function (result) {
+                        console.log("error: ", result.responseText);
+                    }
+                });
+            }
         }
     });
 });
