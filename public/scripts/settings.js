@@ -13,7 +13,9 @@ define(['backbone'], function (Backbone) {
             searchWallPosts:"api/wall_posts/search",
             addFriend:"api/add_friend",
             removeFriend:"api/remove_friend/",
-            numberOfMessagesOnWall: 3
+            numberOfMessagesOnWall: 3,
+            numberOfUserOnSearchPage: 5,
+            numberOfUserOnSearchPage: 5
         }
     });
 

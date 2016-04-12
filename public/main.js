@@ -31,7 +31,8 @@ requirejs.config({
         app: '../app',
         settings: '../settings',
         router: '../router',
-        eventDispatcher: '../eventDispatcher'
+        eventDispatcher: '../eventDispatcher',
+        paginatedCollection: 'backbone-paginated-collection'
     },
     shim: {
         'underscore': {

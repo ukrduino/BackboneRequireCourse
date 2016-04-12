@@ -11,7 +11,7 @@ define(['underscore',
     'loggedInUser',
     'usersCollection',
     'userCardView',
-    'text!../../templates/searchUsersPanel.html',
+    'text!../../templates/searchUsersPanel.html', 'paginatedCollection',
     'bootstrap'], function (_,
                             $,
                             Backbone,
@@ -21,7 +21,8 @@ define(['underscore',
                             LoggedInUser,
                             UsersCollection,
                             UserCardView,
-                            searchUsersPanelTemplate) {
+                            searchUsersPanelTemplate,
+                            PaginatedCollection) {
 
     return Backbone.View.extend({
         id: 'userSearchPanel',
@@ -30,7 +31,8 @@ define(['underscore',
         events: {
             "click .addFriend": 'addFriend',
             "click .viewProfile": 'viewProfile',
-            "click #search": 'searchBy'
+            "click #search": 'searchBy',
+            "click .paginationLink": 'setCollectionPage'
         },
 
         onClose: function () {
@@ -38,11 +40,14 @@ define(['underscore',
             //https://lostechies.com/derickbailey/2011/09/15/zombies-run-managing-page-transitions-in-backbone-apps/
             console.log('sidePanel view onClose');
             this.stopListening();
+            this.paginatedUsersCollection.destroy()
         },
 
         initialize: function () {
+            this.paginatedUsersCollection = new PaginatedCollection(this.usersCollection, {perPage: settings.get('numberOfUserOnSearchPage')});
             this.listenTo(this.usersCollection, 'reset', function () {
-                console.log('reset');
+                this.createPagination();
+                this.paginatedUsersCollection.setPage(0);
                 this.showUsers();
             });
 
@@ -70,7 +75,7 @@ define(['underscore',
         showUsers: function () {
             var that = this;
             $('#users').empty();
-            this.usersCollection.each(function (userModel) {
+            this.paginatedUsersCollection.each(function (userModel) {
                     if (LoggedInUser.checkUserIsFriend(userModel.get('id'))) {
                         userModel.set('isFriend', true).set('showDeleteButton', false);
                     } else {
@@ -107,20 +112,41 @@ define(['underscore',
             if (this.lastNameInput.val().length > 0) {
                 data['last_name'] = this.lastNameInput.val();
             }
-            if (data['last_name'] || data['first_name']) {
-                $.ajax({
-                    url: settings.get('usersSearchUrl'),
-                    type: 'GET',
-                    data: data,
-                    success: function (responseUserData) {
-                        console.log(responseUserData.length);
-                        eventDispatcher.trigger("UserSearchPanel:successSearchBy", responseUserData)
-                    },
-                    error: function (result) {
-                        console.log("error: ", result.responseText);
+            //if (data['last_name'] || data['first_name']) {
+            $.ajax({
+                url: settings.get('usersSearchUrl'),
+                type: 'GET',
+                data: data,
+                success: function (responseUserData) {
+                    console.log(responseUserData.length);
+                    eventDispatcher.trigger("UserSearchPanel:successSearchBy", responseUserData)
+                },
+                error: function (result) {
+                    console.log("error: ", result.responseText);
+                }
+            });
+            //}
+        },
+        createPagination: function () {
+            var pagination = $('.pagination');
+            pagination.empty();
+            if (this.paginatedUsersCollection.getNumPages() > 1) {
+                if (this.paginatedUsersCollection.length > 0) {
+                    var numberOfPage = this.paginatedUsersCollection.getNumPages();
+                    for (var i = 0; i < numberOfPage; i++) {
+                        //var isActive = (i == page) ? " class='active'" : "";
+                        pagination.append("<li id=" + i + "><a class='paginationLink' href='#' data-page=" + i + ">" + i + "</a></li>");
                     }
-                });
+                }
             }
+        },
+        setCollectionPage: function (event) {
+            event.preventDefault();
+            var page = $(event.currentTarget).data('page');
+            this.paginatedUsersCollection.setPage(page);
+            $('li').removeClass('active');
+            $('li#' + page).addClass('active');
+            this.showUsers();
         }
     });
 });
