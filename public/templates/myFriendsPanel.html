@@ -1,6 +1,13 @@
 <div class="col-lg-3 col-md-3">
     <div class="panel panel-default">
-        <div class="panel-heading mainPagePanelsTitle"><h3>My Friends</h3></div>
+        <div class="panel-heading mainPagePanelsTitle">
+            <h3>My Friends <button class="btn btn-info btn-sm" id="friendsFilterToggle">Filter</button></h3>
+            <input type="text" class="form-control friendsFilter" data-field="first_name" placeholder="First Name">
+            <input type="text" class="form-control friendsFilter" data-field="last_name" placeholder="Last Name">
+            <input type="text" class="form-control friendsFilter" data-field="twitter" placeholder="Twitter">
+            <input type="text" class="form-control friendsFilter" data-field="gender" placeholder="Gender">
+            <input type="text" class="form-control friendsFilter" data-field="age" placeholder="Age">
+        </div>
         <div class="panel-body">
             <div id="friends"></div>
         </div>

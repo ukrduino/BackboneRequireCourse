@@ -24,7 +24,9 @@ define(['underscore',
         template: _.template(myFriendsPanelTemplate),
         events: {
             "click .removeFriend": 'removeFriend',
-            "click .viewProfile": 'viewProfile'
+            "click .viewProfile": 'viewProfile',
+            "click #friendsFilterToggle": 'friendsFilterToggle',
+            "keyup .friendsFilter" : "search"
         },
         onClose: function () {
             // unbind all events from models, collections here!!!
@@ -40,10 +42,8 @@ define(['underscore',
             });
         },
         render: function () {
-            if(!_.isUndefined(LoggedInUser.collection)){
-                LoggedInUser.getFriends();
-            }
             $('#contentBlock').append(this.$el.html(this.template));
+            $('.friendsFilter').hide();
         },
 
         showFriends: function () {
@@ -66,6 +66,27 @@ define(['underscore',
         viewProfile: function (event) {
             var user_id = $(event.currentTarget).data('id');
             Backbone.history.navigate('#profile/' + user_id, {trigger: true});
+        },
+        friendsFilterToggle: function () {
+            $('.friendsFilter').toggle();
+        },
+        search: function (event) {
+            var currentInputField = $(event.currentTarget);
+            $('.friendsFilter').not(currentInputField).val('');
+            var field = currentInputField.data('field');
+            var letters = currentInputField.val();
+            this.showFilteredFriends(LoggedInUser.collection.search(letters, field));
+        },
+        showFilteredFriends: function (filteredFriendsCollection) {
+            $('#friends').empty();
+            filteredFriendsCollection.each(function (userModel) {
+                    userModel.set('isFriend', true).set('showDeleteButton', true);
+                    var userCardView = new UserCardView({model: userModel});
+                    $('#friends').append(userCardView.render().el);
+                }
+            );
+            // enable Bootstrap tooltips after rendering
+            $('[data-toggle="tooltip"]').tooltip();
         }
     });
 });
