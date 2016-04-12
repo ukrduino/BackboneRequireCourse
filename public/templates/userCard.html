@@ -2,9 +2,9 @@
     <div class="row">
         <div class="col-lg-4 col-sm-4">
             <% if (image_url) { %>
-            <img class="profileImage" src="<%= image_url %>" alt="<%= first_name %>">
+            <img class="profileImage img-responsive" src="<%= image_url %>" alt="<%= first_name %>">
             <% } else { %>
-            <img class="profileImage" src="./../images/noImages.jpg" alt="user has no image>">
+            <img class="profileImage img-responsive" src="./../images/noImages.jpg" alt="user has no image>">
             <% } %>
         </div>
         <div class="col-lg-8 col-sm-8">
