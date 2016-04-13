@@ -8,8 +8,7 @@
             <% } %>
             <div>
                 <p></p>
-                <p class="userData"><%= first_name %> <%= last_name %> </p>
-
+                <a href="#user/<%= id %>" class="userData"><%= first_name %> <%= last_name %></a>
             </div>
             <div>
                 <button class="btn btn-sm btn-danger removeFriend" data-id="<%= id %>" data-toggle="tooltip"
