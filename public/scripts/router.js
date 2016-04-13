@@ -36,7 +36,8 @@ define([
             'register': 'showRegistrationForm',
             'profile/(:id)': 'showProfilePage',
             'edit/profile': 'showEditProfileForm',
-            'friends': 'showFriendsPage'
+            'friends': 'showFriendsPage',
+            'user/:id': 'showUsersHomePage'
         },
         userIsLoggedIn: function () {
             console.log('LoggedInUser:', LoggedInUser);
@@ -63,11 +64,10 @@ define([
         app_router.on('route:showProfilePage', function (id) {
             if (this.userIsLoggedIn()) {
                 if (id) {
-                    console.log('id:',id);
-                    var user = new UserModel();
-                    user.getUserById(id)
+                    console.log('route:showProfilePage id', id);
+                    this.showView(new ProfilePageView(id));
                 } else {
-                    this.showView(new ProfilePageView(LoggedInUser));
+                    this.showView(new ProfilePageView(LoggedInUser.get('id')));
                 }
             }
         });
@@ -85,7 +85,17 @@ define([
             if (!this.userIsLoggedIn()) {
                 this.showView(new InvitationView()).render();
             } else {
-                this.showView(new MainPageView()).render();
+                if (!_.isUndefined(this.currentView)) {
+                    this.currentView.close();
+                }
+                this.showView(new MainPageView(LoggedInUser.get('id')));
+            }
+        });
+
+        app_router.on('route:showUsersHomePage', function (id) {
+            console.log(id);
+            if (this.userIsLoggedIn()) {
+                this.showView(new MainPageView(id));
             }
         });
         app_router.on('route:logOut', function () {
@@ -101,9 +111,6 @@ define([
                     }
                 });
             }
-        });
-        app_router.listenTo(eventDispatcher, 'UserModel:successGetUserById', function (user) {
-            this.showView(new ProfilePageView(user));
         });
 
         if (typeof(Storage) !== "undefined") {

@@ -64,5 +64,8 @@
 .friendsFilterFields{
     margin-bottom: 5px;
 }
+.message_text{
+    word-break:break-all;
+}
 
 
