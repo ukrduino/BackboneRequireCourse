@@ -32,7 +32,7 @@ define(['underscore',
             "click .addFriend": 'addFriend',
             "click .viewProfile": 'viewProfile',
             "click #search": 'searchBy',
-            "click .paginationLink": 'setCollectionPage'
+            "click .usersPaginationLink": 'setCollectionPage'
         },
 
         onClose: function () {
@@ -128,14 +128,13 @@ define(['underscore',
             //}
         },
         createPagination: function () {
-            var pagination = $('.pagination');
+            var pagination = $('#usersPagination');
             pagination.empty();
             if (this.paginatedUsersCollection.getNumPages() > 1) {
                 if (this.paginatedUsersCollection.length > 0) {
                     var numberOfPage = this.paginatedUsersCollection.getNumPages();
                     for (var i = 0; i < numberOfPage; i++) {
-                        //var isActive = (i == page) ? " class='active'" : "";
-                        pagination.append("<li id=" + i + "><a class='paginationLink' href='#' data-page=" + i + ">" + i + "</a></li>");
+                        pagination.append("<li id=" + i + "><a class='usersPaginationLink' href='#' data-page=" + i + ">" + i + "</a></li>");
                     }
                 }
             }
