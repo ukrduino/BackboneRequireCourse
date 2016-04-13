@@ -88,7 +88,7 @@ define(['underscore',
                     data: data,
                     success: function (responseUserData) {
                         that.set(responseUserData);
-                        console.log(that);
+                        console.log('GetUserById:', that);
                         eventDispatcher.trigger("UserModel:successGetUserById", that)
                     },
                     error: function (result) {
