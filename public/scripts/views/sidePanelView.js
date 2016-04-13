@@ -17,13 +17,13 @@ define(['underscore',
         initialize: function (id) {
             if(id == LoggedInUser.get('id')){
                 this.user = LoggedInUser;
-                this.render();
+                this.render(LoggedInUser.get('id'));
             }else{
                 this.user = new UserModel();
                 this.user.getUserById(id);
             }
             this.listenTo(eventDispatcher, 'UserModel:successGetUserById', function (user) {
-                this.render();
+                this.render(user.get('id'));
             });
         },
         onClose: function () {
@@ -33,11 +33,16 @@ define(['underscore',
             console.log('sidePanel view onClose');
         },
 
-        render: function () {
+        render: function (id) {
             console.log("sidePanel view render");
             $('#contentBlock').append(this.$el.html(this.template(this.user.toJSON())));
             // enable Bootstrap tooltips after rendering
             $('[data-toggle="tooltip"]').tooltip();
+            if(id == LoggedInUser.get('id')){
+                $('#sidePanelHeader').html("<a href=\"#profile/\"><h3>Its me <span class=\"glyphicon glyphicon-user\" aria-hidden=\"true\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"View my profile\"></span></h3></a>")
+            }else{
+                $('#sidePanelHeader').html("<a href=\"#profile/" + id + "\"><h3>View profile</h3></a>")
+            }
         }
     });
 });
