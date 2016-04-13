@@ -20,17 +20,21 @@ define(['underscore',
             "click #addFriend": 'addFriend'
         },
 
-        initialize: function (user) {
-            this.user = user;
-            if (LoggedInUser.checkUserIsFriend(this.user.get('id'))) {
-                this.user.set('isFriend', true)
+        initialize: function (id) {
+            if (id == LoggedInUser.get('id')) {
+                this.user = LoggedInUser;
+                this.user.getNumberOfMessages();
+            } else {
+                this.user = new UserModel();
+                this.user.getUserById(id);
             }
-            this.user.getNumberOfMessages();
-            this.listenTo(eventDispatcher, 'UserModel:successGetNumberOfMessages',
-                function () {
-                    this.render();
-                });
-            this.render();
+            this.listenTo(eventDispatcher, 'UserModel:successGetUserById', function (user) {
+                if (LoggedInUser.checkUserIsFriend(user.get('id'))) {
+                    user.set('isFriend', true)
+                }
+                user.getNumberOfMessages();
+            });
+            this.listenTo(eventDispatcher, 'UserModel:successGetNumberOfMessages', this.render);
         },
 
         onClose: function () {
@@ -52,5 +56,4 @@ define(['underscore',
             LoggedInUser.addToFriends(this.user.get('id'));
         }
     });
-})
-;
+});
