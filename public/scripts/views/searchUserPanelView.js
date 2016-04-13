@@ -134,7 +134,7 @@ define(['underscore',
                 if (this.paginatedUsersCollection.length > 0) {
                     var numberOfPage = this.paginatedUsersCollection.getNumPages();
                     for (var i = 0; i < numberOfPage; i++) {
-                        pagination.append("<li id=" + i + "><a class='usersPaginationLink' href='#' data-page=" + i + ">" + i + "</a></li>");
+                        pagination.append("<li id=" + i + "><a class='usersPaginationLink' href='#' data-page=" + i + ">" + (i + 1) + "</a></li>");
                     }
                 }
             }
