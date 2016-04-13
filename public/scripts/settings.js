@@ -15,7 +15,7 @@ define(['backbone'], function (Backbone) {
             removeFriend:"api/remove_friend/",
             numberOfMessagesOnWall: 3,
             numberOfUserOnSearchPage: 5,
-            numberOfUserOnSearchPage: 5
+            numberOfFriendsOnSearchPage: 5
         }
     });
 
