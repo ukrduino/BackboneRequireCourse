@@ -1,15 +1,11 @@
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
-        <h1 id="homeLink" class="navbar-text"  data-toggle="tooltip"
-            data-placement="bottom" title="Main page"><a href="#"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a></h1>
+        <h1 id="homeLink" class="navbar-text"  data-toggle="tooltip" data-placement="bottom" title="Main page"><a href="#"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a></h1>
         <% if (!id) { %>
-        <h1 class="stats text-right"  data-toggle="tooltip"
-            data-placement="bottom" title="Login"><div id="loginLink" class="navbar-text"><a href="#login"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></a></div></h1>
+        <h1 id="loginLink" class="navbar-text" data-toggle="tooltip" data-placement="bottom" title="Login"><a href="#login"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></a></h1>
         <% } else { %>
-        <h1 id="logoutLink" class="navbar-text"  data-toggle="tooltip"
-            data-placement="bottom" title="Logout"><a href="#logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></h1>
-        <h1 id="friendsLink" class="navbar-text"  data-toggle="tooltip"
-            data-placement="bottom" title="My friends"><a href="#friends"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></a></h1>
+        <h1 id="logoutLink" class="navbar-text"  data-toggle="tooltip" data-placement="bottom" title="Logout"><a href="#logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></h1>
+        <h1 id="friendsLink" class="navbar-text"  data-toggle="tooltip" data-placement="bottom" title="My friends"><a href="#friends"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></a></h1>
         <% } %>
     </div>
 </nav>
