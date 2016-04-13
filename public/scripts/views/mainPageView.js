@@ -10,8 +10,10 @@ define([
 
     return Backbone.View.extend({
 
-        initialize: function () {
+        initialize: function (id) {
+            this.user_id = id;
             this.childViews = [];
+            this.render();
         },
 
         onClose: function () {
@@ -29,8 +31,8 @@ define([
             /*
              * adding our child views in childView array
              */
-            this.childViews[0] = new SidePanelView();
-            this.childViews[1] = new MessagesPanelView();
+            this.childViews[0] = new SidePanelView(this.user_id);
+            this.childViews[1] = new MessagesPanelView(this.user_id);
         }
     });
 });
