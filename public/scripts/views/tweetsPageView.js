@@ -19,7 +19,6 @@ define([
         onClose: function () {
             // unbind all events from models, collections here!!!
             //https://lostechies.com/derickbailey/2011/09/15/zombies-run-managing-page-transitions-in-backbone-apps/
-            console.log('Main Page view onClose');
 
             // colling close() on all subviews
             this.childViews.forEach(function (view) {

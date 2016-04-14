@@ -70,7 +70,6 @@ require([
         this.remove();
         //unbinds all view events (e.g. "click #someButton": "doThat",)
         this.unbind();
-        console.log('Close from Backbone.View.prototype');
         //fires onClose() of view to unbind models collections events in closing view. DO IT IN VIEW!!!
         if (this.onClose){
             this.onClose();

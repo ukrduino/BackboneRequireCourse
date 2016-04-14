@@ -38,7 +38,6 @@ define(['underscore',
         onClose: function () {
             // unbind all events from models, collections here!!!
             //https://lostechies.com/derickbailey/2011/09/15/zombies-run-managing-page-transitions-in-backbone-apps/
-            console.log('sidePanel view onClose');
             this.stopListening();
             this.paginatedUsersCollection.destroy()
         },
@@ -68,7 +67,6 @@ define(['underscore',
         },
 
         render: function () {
-            console.log("Users Search panel render");
             $('#contentBlock').append(this.$el.html(this.template));
         },
 
@@ -118,7 +116,6 @@ define(['underscore',
                 type: 'GET',
                 data: data,
                 success: function (responseUserData) {
-                    console.log(responseUserData.length);
                     eventDispatcher.trigger("UserSearchPanel:successSearchBy", responseUserData)
                 },
                 error: function (result) {

@@ -12,7 +12,6 @@ define(['underscore',
             initialize: function () {
             },
             search: function (letters, field) {
-                console.log('letters', letters);
                 if (letters == "") return this;
                 var pattern = new RegExp(letters, "gi");
                 return _(this.filter(function (data) {

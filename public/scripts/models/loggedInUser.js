@@ -35,7 +35,6 @@ define(['underscore',
                     data: {api_key: settings.get('apiKey')},
                     reset: true,
                     success: function (collection, response, options) {
-                        console.log('Friends collection fetch success', collection);
                         if (typeof(Storage) !== "undefined") {
                             sessionStorage.setItem("friendsCollection", JSON.stringify(collection));
                         } else {
@@ -54,7 +53,6 @@ define(['underscore',
                     data: data,
                     type: 'DELETE',
                     success: function () {
-                        console.log('removeFriend success');
                         eventDispatcher.trigger('userModel:successRemoveFromFriend');
                     },
                     error: function () {

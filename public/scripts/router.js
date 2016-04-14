@@ -43,11 +43,9 @@ define([
             'user/:id/tweets': 'showUsersTweetsPage'
         },
         userIsLoggedIn: function () {
-            console.log('LoggedInUser:', LoggedInUser);
             return !_.isNull(LoggedInUser.get('id')) && !_.isUndefined(LoggedInUser.get('id'))
         },
         showView: function (view) {
-            console.log('CurrentView:', this.currentView);
             if (!_.isUndefined(this.currentView)) {
                 this.currentView.close();
             }
@@ -67,7 +65,6 @@ define([
         app_router.on('route:showProfilePage', function (id) {
             if (this.userIsLoggedIn()) {
                 if (id) {
-                    console.log('route:showProfilePage id', id);
                     this.showView(new ProfilePageView(id));
                 } else {
                     this.showView(new ProfilePageView(LoggedInUser.get('id')));
@@ -102,7 +99,6 @@ define([
         });
 
         app_router.on('route:showUsersHomePage', function (id) {
-            console.log(id);
             if (this.userIsLoggedIn()) {
                 this.showView(new MainPageView(id));
             }else{
@@ -110,7 +106,6 @@ define([
             }
         });
         app_router.on('route:showUsersTweetsPage', function (id) {
-            console.log(id);
             if (this.userIsLoggedIn()) {
                 this.showView(new TweetsPageView(id));
             }else{

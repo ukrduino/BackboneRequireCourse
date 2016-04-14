@@ -18,22 +18,18 @@ define(['underscore',
         registrationTemplate: _.template(registrationFormTemplate),
 
         initialize: function () {
-            console.log("RegisterView initialize");
         },
 
         onClose: function () {
             // unbind all events from models, collections here!!!
             //https://lostechies.com/derickbailey/2011/09/15/zombies-run-managing-page-transitions-in-backbone-apps/
-            console.log('RegisterView view onClose');
         },
 
         render: function () {
-            console.log("registrationView render");
             $('#contentBlock').append(this.$el.html(this.registrationTemplate));
         },
 
         register: function () {
-            console.log("RegisterView register ");
             var email = $('#email').val();
             var password = $('#password').val();
             var passwordConfirmation = $('#passwordConfirmation').val();

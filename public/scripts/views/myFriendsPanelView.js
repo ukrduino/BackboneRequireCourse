@@ -33,7 +33,6 @@ define(['underscore',
         onClose: function () {
             // unbind all events from models, collections here!!!
             //https://lostechies.com/derickbailey/2011/09/15/zombies-run-managing-page-transitions-in-backbone-apps/
-            console.log('friendsPanel view onClose');
             this.paginatedFriendsCollection.destroy();
             this.stopListening();
         },
@@ -121,7 +120,6 @@ define(['underscore',
         createPagination: function () {
             var pagination = $('#friendsPagination');
             pagination.empty();
-            console.log(this.paginatedFriendsCollection.getNumPages());
             if (this.paginatedFriendsCollection.getNumPages() > 1) {
                 if (this.paginatedFriendsCollection.length > 0) {
                     var numberOfPage = this.paginatedFriendsCollection.getNumPages();

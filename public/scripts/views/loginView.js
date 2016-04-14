@@ -21,7 +21,6 @@ define(['underscore',
         onClose: function () {
             // unbind all events from models, collections here!!!
             //https://lostechies.com/derickbailey/2011/09/15/zombies-run-managing-page-transitions-in-backbone-apps/
-            console.log('Login view onClose');
         },
 
         initialize: function () {
@@ -29,7 +28,6 @@ define(['underscore',
         },
 
         render: function () {
-            console.log("LoginView render and append to contentBlock");
             $('#contentBlock').append(this.$el.html(this.loginTemplate));
             return this;
         },

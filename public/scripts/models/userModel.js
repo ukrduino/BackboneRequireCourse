@@ -53,7 +53,6 @@ define(['underscore',
                 });
             },
             getNumberOfMessages: function () {
-                console.log('getNumberOfMessages');
                 var that = this;
                 var data = {
                     api_key: settings.get('apiKey'),
@@ -88,7 +87,6 @@ define(['underscore',
                     data: data,
                     success: function (responseUserData) {
                         that.set(responseUserData);
-                        console.log('GetUserById:', that);
                         eventDispatcher.trigger("UserModel:successGetUserById", that)
                     },
                     error: function (result) {

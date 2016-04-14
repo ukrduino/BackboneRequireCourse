@@ -30,11 +30,9 @@ define(['underscore',
             // unbind all events from models, collections here!!!
             //https://lostechies.com/derickbailey/2011/09/15/zombies-run-managing-page-transitions-in-backbone-apps/
             this.stopListening();
-            console.log('sidePanel view onClose');
         },
 
         render: function (id) {
-            console.log("sidePanel view render");
             $('#contentBlock').append(this.$el.html(this.template(this.user.toJSON())));
             // enable Bootstrap tooltips after rendering
             $('[data-toggle="tooltip"]').tooltip();
