@@ -9,6 +9,7 @@ define([
     'invitationView',
     'headerView',
     'mainPageView',
+    'tweetsPageView',
     'loginView',
     'registrationView',
     'editProfileView',
@@ -23,6 +24,7 @@ define([
                                      InvitationView,
                                      HeaderView,
                                      MainPageView,
+                                     TweetsPageView,
                                      LoginView,
                                      RegistrationView,
                                      EditProfileView,
@@ -37,7 +39,8 @@ define([
             'profile/(:id)': 'showProfilePage',
             'edit/profile': 'showEditProfileForm',
             'friends': 'showFriendsPage',
-            'user/:id': 'showUsersHomePage'
+            'user/:id': 'showUsersHomePage',
+            'user/:id/tweets': 'showUsersTweetsPage'
         },
         userIsLoggedIn: function () {
             console.log('LoggedInUser:', LoggedInUser);
@@ -69,16 +72,22 @@ define([
                 } else {
                     this.showView(new ProfilePageView(LoggedInUser.get('id')));
                 }
+            }else{
+                this.showView(new InvitationView()).render();
             }
         });
         app_router.on('route:showEditProfileForm', function () {
             if (this.userIsLoggedIn()) {
                 this.showView(new EditProfileView()).render();
+            }else{
+                this.showView(new InvitationView()).render();
             }
         });
         app_router.on('route:showFriendsPage', function () {
             if (this.userIsLoggedIn()) {
                 this.showView(new UserSearchPageView()).render();
+            }else{
+                this.showView(new InvitationView()).render();
             }
         });
         app_router.on('route:showHomePage', function () {
@@ -96,6 +105,16 @@ define([
             console.log(id);
             if (this.userIsLoggedIn()) {
                 this.showView(new MainPageView(id));
+            }else{
+                this.showView(new InvitationView()).render();
+            }
+        });
+        app_router.on('route:showUsersTweetsPage', function (id) {
+            console.log(id);
+            if (this.userIsLoggedIn()) {
+                this.showView(new TweetsPageView(id));
+            }else{
+                this.showView(new InvitationView()).render();
             }
         });
         app_router.on('route:logOut', function () {
@@ -110,6 +129,8 @@ define([
                         Backbone.history.navigate('login', {trigger: true});
                     }
                 });
+            }else{
+                this.showView(new InvitationView()).render();
             }
         });
 
