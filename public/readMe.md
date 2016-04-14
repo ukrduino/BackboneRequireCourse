@@ -1,10 +1,3 @@
-1. ./main.js - настройка require.js и старт инициализации приложения.
-2. ./scripts/app.js -  инициализация роутера
-3. ./scripts/models/loggedInUser - singleton для содержания информации 
-    о залогиненом пользователе
-4. ./scripts/settings - singleton для содержания настроек приложения
-
-http://www.egstudio.biz/how-to-setup-a-basic-backbone-application/
-https://cdnjs.com/libraries/backbone.js/tutorials/organizing-backbone-using-modules
-https://lostechies.com/derickbailey/2012/02/06/3-stages-of-a-backbone-applications-startup/
-http://stackoverflow.com/a/16845472
+Для запуска приложения необходимо в директории с файлом package.json
+запустить npm install и установить необходимые зависимости для  node.js 
+прокси сервера. Запустить сервер и перейти по адресу 127.0.0.1:3000

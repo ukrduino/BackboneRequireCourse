@@ -1,5 +1,5 @@
 /**
- *    Invitation panel View (Singletone as its always static)
+ *    Invitation panel View
  */
 
 define(['underscore',

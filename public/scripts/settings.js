@@ -11,7 +11,6 @@ define(['backbone'], function (Backbone) {
             wallPosts: "api/wall_posts/",
             getFriends: "api/friends/",
             searchWallPosts: "api/wall_posts/search",
-            messagesSearchLimit: 3,
             addFriend: "api/add_friend",
             removeFriend: "api/remove_friend/",
             numberOfMessagesOnWall: 5,
