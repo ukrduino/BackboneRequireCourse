@@ -19,6 +19,8 @@ requirejs.config({
         mainPageView: '../views/mainPageView',
         messagesPanelView: '../views/messagesPanelView',
         messageView: '../views/messageView',
+        tweetsPageView: '../views/tweetsPageView',
+        tweetsPanelView: '../views/tweetsPanelView',
         sidePanelView: '../views/sidePanelView',
         loginView: '../views/loginView',
         registrationView: '../views/registrationView',
