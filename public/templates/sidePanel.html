@@ -13,6 +13,9 @@
             <h4><%= email %></h4>
             <h4>About me</h4>
             <div><%= description %></div>
+            <% if (image_url) { %>
+            <a href="#user/<%= id %>/tweets" ><img id="twitter" src="./../images/twitter.png"></a>
+            <% } %>
         </div>
     </div>
 </div>
