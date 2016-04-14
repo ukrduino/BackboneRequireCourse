@@ -67,5 +67,8 @@
 .message_text{
     word-break:break-all;
 }
+#twitter{
+    height: 30px;
+}
 
 
